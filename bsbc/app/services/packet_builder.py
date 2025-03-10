@@ -151,81 +151,28 @@ class PacketBuilder:
         payload[3:10] = bytes.fromhex("43420100000000")  # 나머지 헤더 부분
         
         # 장치명에 따라 직접 바이트 위치 설정
-        # 이미지의 레이아웃에 맞게 매핑
+        # 장치 매퍼를 통한 좌표 기반 일관성 있는 매핑
         try:
-            # 학년-반 형식 (예: "1-1", "3-2")
-            if '-' in device_name and device_name[0].isdigit():
-                grade, class_num = device_name.split('-')
-                grade = int(grade)
-                class_num = int(class_num)
+            # 장치 매퍼를 통해 장치명에 해당하는 좌표 얻기
+            coords = self.device_mapper.get_device_coords(device_name)
+            if coords is None:
+                print(f"[!] 알 수 없는 장치명: {device_name}")
+                return None
                 
-                # 이미지 레이아웃에 따른 바이트 위치 매핑
-                if grade == 1:  # 1학년 (1-1, 1-2, 1-3, 1-4)
-                    if 1 <= class_num <= 4:
-                        byte_pos = 10  # 11번째 바이트 
-                        bit_pos = class_num - 1
-                    else:
-                        print(f"[!] 1학년에는 1반부터 4반까지만 있습니다: {class_num}")
-                        return None
-                elif grade == 2:  # 2학년 (2-1, 2-2, 2-3, 2-4)
-                    if 1 <= class_num <= 4:
-                        byte_pos = 10  # 11번째 바이트
-                        bit_pos = class_num + 7  # 시작 위치 8부터
-                    else:
-                        print(f"[!] 2학년에는 1반부터 4반까지만 있습니다: {class_num}")
-                        return None
-                elif grade == 3:  # 3학년 (3-1, 3-2, 3-3, 3-4)
-                    if 1 <= class_num <= 4:
-                        byte_pos = 11  # 12번째 바이트
-                        bit_pos = class_num - 1
-                    else:
-                        print(f"[!] 3학년에는 1반부터 4반까지만 있습니다: {class_num}")
-                        return None
-                else:
-                    print(f"[!] 지원하지 않는 학년: {grade}")
-                    return None
-            # 특수 공간 처리 (이미지의 레이아웃 기반)
-            else:
-                # 특수 공간 매핑 (이미지에 표시된 순서대로)
-                special_rooms = {
-                    "교무실": (11, 4),  # 12번째 바이트, 4번 비트
-                    "과학실": (11, 5),
-                    "정의교실": (11, 6),
-                    "남여휴게실": (11, 7),
-                    "교무실2": (12, 0),  # 13번째 바이트, 0번 비트 
-                    "학생식당": (12, 1),
-                    "위클래식": (12, 2),
-                    "프로그램실": (12, 3),
-                    "교무2처": (12, 4),
-                    "진로상담": (12, 5),
-                    "모듈1실": (12, 6),
-                    "정의교실2": (12, 7),
-                    # 다음 행 (A1호실, B2호실 등)
-                    "A1호실": (13, 0),  # 14번째 바이트, 0번 비트
-                    "B2호실": (13, 1),
-                    "A2호실": (13, 2),
-                    "B3호실": (13, 3),
-                    "방송실-1": (13, 4),
-                    "방송실-2": (13, 5),
-                    "방송실-3": (13, 6),
-                    "별관1-1": (13, 7),
-                    "별관2-1": (14, 0),  # 15번째 바이트, 0번 비트
-                    "별관2-2": (14, 1),
-                    "운동장": (14, 2),
-                    "옥외": (14, 3)
-                }
-                
-                if device_name in special_rooms:
-                    byte_pos, bit_pos = special_rooms[device_name]
-                else:
-                    print(f"[!] 알 수 없는 특수 공간: {device_name}")
-                    return None
+            # 좌표로부터 바이트 위치와 비트 위치 계산
+            row, col = coords
+            byte_pos, bit_pos = self.device_mapper.get_byte_bit_position(row, col)
+            
+            # 디버그 정보 출력
+            print(f"[*] 장치: {device_name} -> 좌표 ({row}, {col}) -> 바이트 {byte_pos}, 비트 {bit_pos}")
             
             # 상태에 따라 비트 설정 또는 해제
             if state:
                 payload[byte_pos] |= (1 << bit_pos)  # 비트 설정 (켜기)
+                print(f"[*] 장치 활성화: {device_name} -> 바이트 {byte_pos}, 비트 {bit_pos} 켜기")
             else:
                 payload[byte_pos] &= ~(1 << bit_pos)  # 비트 해제 (끄기)
+                print(f"[*] 장치 비활성화: {device_name} -> 바이트 {byte_pos}, 비트 {bit_pos} 끄기")
                 
         except Exception as e:
             print(f"[!] 장치 패킷 생성 중 오류: {e}")
@@ -294,6 +241,9 @@ class PacketBuilder:
         bytes
             시스템 상태가 담긴 패킷 페이로드
         """
+        # 로그 추가: 받은 active_rooms 출력 
+        print(f"[*] create_current_state_payload 호출됨: {active_rooms}")
+        
         # 기본 페이로드 생성 (46바이트)
         payload = bytearray(46)
         
@@ -301,9 +251,10 @@ class PacketBuilder:
         payload[0:3] = bytes.fromhex("022d00")  # 원래 헤더 형식 (02 2d 00)
         payload[3:10] = bytes.fromhex("43420100000000")  # 나머지 헤더 부분
         
-        # active_rooms가 지정되지 않으면 빈 상태 반환
+        # active_rooms가 지정되지 않거나 비어있으면 빈 상태 반환
         if not active_rooms:
             # 모든 장치가 비활성화된 상태
+            print("[*] 활성화된 방이 없음")
             # 체크섬 계산 및 설정
             checksum = self.calculate_checksum(payload)
             
@@ -317,81 +268,86 @@ class PacketBuilder:
         # 각 활성화된 방의 비트 설정
         for room_id in active_rooms:
             try:
+                # 방 ID 타입 로깅
+                print(f"[*] 방 ID 처리 중: {room_id} (타입: {type(room_id).__name__})")
+                
+                # 문자열 타입 처리 (방 ID가 문자열로 들어올 경우)
+                if isinstance(room_id, str):
+                    try:
+                        room_id = int(room_id)
+                        print(f"[*] 문자열 ID를 숫자로 변환: {room_id}")
+                    except:
+                        print(f"[!] 문자열을 숫자로 변환할 수 없음: {room_id}")
+                        continue
+                
                 # 방 ID를 분석하여 학년과 반 추출
                 # 예: 301 -> 3학년 1반
-                if 100 <= room_id < 1000:  # 정상적인 방 ID 형식 (3자리)
+                if 100 <= room_id < 1000:  # 일반 교실 ID (3자리)
+                    print(f"[*] 일반 교실 처리: {room_id}")
                     grade = room_id // 100  # 앞자리 (학년)
                     class_num = room_id % 100  # 뒤 두자리 (반)
                     
-                    # 이미지 레이아웃에 따른 매핑 확인
-                    if grade == 1:  # 1학년
-                        if 1 <= class_num <= 4:
-                            byte_pos = 10  # 11번째 바이트
-                            bit_pos = class_num - 1
-                        else:
-                            print(f"[!] 1학년에는 1반부터 4반까지만 있습니다: {class_num}")
-                            continue
-                    elif grade == 2:  # 2학년
-                        if 1 <= class_num <= 4:
-                            byte_pos = 10  # 11번째 바이트
-                            bit_pos = class_num + 7  # 시작 위치 8부터
-                        else:
-                            print(f"[!] 2학년에는 1반부터 4반까지만 있습니다: {class_num}")
-                            continue
-                    elif grade == 3:  # 3학년
-                        if 1 <= class_num <= 4:
-                            byte_pos = 11  # 12번째 바이트
-                            bit_pos = class_num - 1
-                        else:
-                            print(f"[!] 3학년에는 1반부터 4반까지만 있습니다: {class_num}")
-                            continue
-                    else:
+                    # 유효한 학년 및 반 번호 확인
+                    if grade < 1 or grade > 3:
                         print(f"[!] 지원하지 않는 학년: {grade}")
                         continue
+                        
+                    if class_num < 1 or class_num > 4:
+                        print(f"[!] 잘못된 반 번호: {class_num}. 1~4 사이 값이어야 합니다.")
+                        continue
+                    
+                    # 장치 좌표로 변환 (grade -> row, class_num -> col)
+                    if grade == 1:  # 1학년
+                        row, col = 0, class_num - 1  # 0행, (반-1)열
+                    elif grade == 2:  # 2학년
+                        row, col = 0, class_num + 7  # 0행, (반+7)열
+                    elif grade == 3:  # 3학년
+                        row, col = 1, class_num - 1  # 1행, (반-1)열
+                    
+                    # 장치 매퍼를 통해 바이트/비트 위치 계산
+                    byte_pos, bit_pos = self.device_mapper.get_byte_bit_position(row, col)
                     
                     # 비트 설정 (활성화)
                     payload[byte_pos] |= (1 << bit_pos)
+                    print(f"[*] 장치 활성화: {grade}학년 {class_num}반 -> 좌표 ({row}, {col}) -> 바이트 {byte_pos}, 비트 {bit_pos}")
                     
                 # 특수 공간 ID 처리 (1000 이상)
-                else:
-                    # 특수 공간 매핑 (ID -> 바이트/비트 위치)
-                    special_rooms_map = {
-                        1001: (11, 4),  # "교무실"
-                        1002: (11, 5),  # "과학실"
-                        1003: (11, 6),  # "정의교실"
-                        1004: (11, 7),  # "남여휴게실"
-                        1005: (12, 0),  # "교무실2"
-                        1006: (12, 1),  # "학생식당"
-                        1007: (12, 2),  # "위클래식"
-                        1008: (12, 3),  # "프로그램실"
-                        1009: (12, 4),  # "교무2처"
-                        1010: (12, 5),  # "진로상담"
-                        1011: (12, 6),  # "모듈1실"
-                        1012: (12, 7),  # "정의교실2"
-                        1013: (13, 0),  # "A1호실"
-                        1014: (13, 1),  # "B2호실"
-                        1015: (13, 2),  # "A2호실"
-                        1016: (13, 3),  # "B3호실"
-                        1017: (13, 4),  # "방송실-1"
-                        1018: (13, 5),  # "방송실-2"
-                        1019: (13, 6),  # "방송실-3"
-                        1020: (13, 7),  # "별관1-1"
-                        1021: (14, 0),  # "별관2-1"
-                        1022: (14, 1),  # "별관2-2"
-                        1023: (14, 2),  # "운동장"
-                        1024: (14, 3)   # "옥외"
+                elif room_id >= 1000:
+                    print(f"[*] 특수 공간 처리: {room_id}")
+                    # 특수 공간 ID를 좌표로 변환
+                    special_room_coords = {
+                        # 교무실, 과학실, 정의교실, 남여휴게실 등 (3행)
+                        1001: (2, 0), 1002: (2, 1), 1003: (2, 2), 1004: (2, 3),
+                        1005: (2, 4), 1006: (2, 5), 1007: (2, 6), 1008: (2, 7),
+                        # A1호실, B2호실 등 (4행)
+                        1013: (3, 0), 1014: (3, 1), 1015: (3, 2), 1016: (3, 3),
+                        1017: (3, 4), 1018: (3, 5), 1019: (3, 6), 1020: (3, 7),
+                        # 별관, 운동장 등 (5행)
+                        1021: (4, 0), 1022: (4, 1), 1023: (4, 2), 1024: (4, 3)
                     }
                     
-                    if room_id in special_rooms_map:
-                        byte_pos, bit_pos = special_rooms_map[room_id]
+                    if room_id in special_room_coords:
+                        row, col = special_room_coords[room_id]
+                        # 장치 매퍼를 통해 바이트/비트 위치 계산
+                        byte_pos, bit_pos = self.device_mapper.get_byte_bit_position(row, col)
+                        
                         # 비트 설정 (활성화)
                         payload[byte_pos] |= (1 << bit_pos)
+                        print(f"[*] 특수 공간 활성화: ID {room_id} -> 좌표 ({row}, {col}) -> 바이트 {byte_pos}, 비트 {bit_pos}")
                     else:
                         print(f"[!] 알 수 없는 특수 공간 ID: {room_id}")
                         continue
+                else:
+                    print(f"[!] 지원하지 않는 방 ID 형식: {room_id}")
+                    continue
             except Exception as e:
                 print(f"[!] 방 ID 처리 중 오류 ({room_id}): {e}")
+                import traceback
+                traceback.print_exc()
                 continue
+        
+        # 패킷 완성 후 로깅
+        print(f"[*] 생성된 패킷 바이트: {', '.join([f'{i}:{payload[i]:02x}' for i in range(len(payload)) if payload[i] != 0])}")
         
         # 체크섬 계산 및 설정
         checksum = self.calculate_checksum(payload)
@@ -529,6 +485,51 @@ class PacketBuilder:
         payload[17] = 0x03      # 종료 바이트
         
         return bytes(payload)
+    
+    def create_byte_bit_payload(self, byte_pos, bit_pos, state=1):
+        """
+        바이트 위치와 비트 위치를 직접 사용하여 제어 패킷 생성
+        이 함수는 좌표로부터 직접 패킷을 생성할 때 사용합니다.
+        
+        Parameters:
+        -----------
+        byte_pos : int
+            제어할 장치가 위치한 바이트 위치
+        bit_pos : int
+            제어할 장치가 위치한 비트 위치 (0-7)
+        state : int
+            0: 끄기, 1: 켜기
+            
+        Returns:
+        --------
+        bytes
+            생성된 패킷 페이로드
+        """
+        # 기본 페이로드 생성 (46바이트)
+        payload = bytearray(46)
+        
+        # 기본 헤더 - 레거시 형식으로 복원 (02 2d 00)
+        payload[0:3] = bytes.fromhex("022d00")  # 원래 헤더 형식 (02 2d 00)
+        payload[3:10] = bytes.fromhex("43420100000000")  # 나머지 헤더 부분
+        
+        # 지정된 바이트 및 비트 위치에 상태 설정
+        if state:
+            payload[byte_pos] |= (1 << bit_pos)  # 비트 설정 (켜기)
+            print(f"[*] 장치 활성화: 바이트 {byte_pos}, 비트 {bit_pos} 켜기")
+        else:
+            payload[byte_pos] &= ~(1 << bit_pos)  # 비트 해제 (끄기)
+            print(f"[*] 장치 비활성화: 바이트 {byte_pos}, 비트 {bit_pos} 끄기")
+        
+        # 체크섬 계산 및 설정
+        checksum = self.calculate_checksum(payload)
+        
+        # 패킷 길이 및 종료 바이트 설정
+        payload[42] = 0x00  # 첫 번째 바이트
+        payload[43] = checksum  # 두 번째 바이트에 체크섬 설정
+        payload[44] = 0x03  # 세 번째 바이트 (종료 바이트)
+        payload[45] = 0x00  # 네 번째 바이트
+        
+        return payload
             
 # 싱글톤 인스턴스 생성
 packet_builder = PacketBuilder() 

@@ -1,0 +1,10 @@
+{
+    "allowed_ip_networks": [
+        "10.129.49.0/24",
+        "10.129.50.0/24",
+        "127.0.0.1/32"
+    ],
+    "totp_secret": "LGT6EZ5B3UAVO6NBJLNZRHKMUG6PY3GE",
+    "totp_window": 2,
+    "api_key_header": "X-API-Key"
+}

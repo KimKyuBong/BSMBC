@@ -1,0 +1,55 @@
+/* 기본 스타일 */
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+    padding: 20px 0;
+}
+
+.footer {
+    margin-top: auto;
+}
+
+/* 헤더 스타일 */
+.navbar-brand {
+    font-weight: bold;
+}
+
+/* 카드 스타일 */
+.card {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    border-radius: 0.5rem;
+}
+
+.card-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+}
+
+/* 로그 영역 스타일 */
+#logArea {
+    font-family: monospace;
+    font-size: 0.9rem;
+}
+
+/* 버튼 스타일 */
+.btn {
+    border-radius: 0.25rem;
+}
+
+/* 폼 스타일 */
+.form-control, .form-select {
+    border-radius: 0.25rem;
+}
+
+/* 반응형 디자인 조정 */
+@media (max-width: 768px) {
+    .container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+} 

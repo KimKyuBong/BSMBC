@@ -1,0 +1,481 @@
+{% extends "base.html" %}
+
+{% block title %}방송 관리 시스템{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <h1 class="mb-4">방송 관리 시스템</h1>
+    
+    <ul class="nav nav-tabs mb-4" id="broadcastTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="live-tab" data-bs-toggle="tab" data-bs-target="#live" type="button" role="tab" aria-controls="live" aria-selected="true">실시간 방송</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="schedule-tab" data-bs-toggle="tab" data-bs-target="#schedule" type="button" role="tab" aria-controls="schedule" aria-selected="false">예약 방송</button>
+        </li>
+    </ul>
+    
+    <div class="tab-content" id="broadcastTabsContent">
+        <!-- 실시간 방송 탭 -->
+        <div class="tab-pane fade show active" id="live" role="tabpanel" aria-labelledby="live-tab">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">오디오 파일 방송</h5>
+                        </div>
+                        <div class="card-body">
+                            <form id="audioForm" enctype="multipart/form-data">
+                                <div class="mb-3">
+                                    <label for="audioFile" class="form-label">오디오 파일 (WAV 형식)</label>
+                                    <input type="file" class="form-control" id="audioFile" name="audio_file" accept=".wav" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="audioTargetDevices" class="form-label">방송 대상 장치 (쉼표로 구분)</label>
+                                    <input type="text" class="form-control" id="audioTargetDevices" name="target_devices" placeholder="예: 1-1, 1-2, 3-5" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="audioEndDevices" class="form-label">종료 후 끌 장치 (쉼표로 구분, 미지정시 대상과 동일)</label>
+                                    <input type="text" class="form-control" id="audioEndDevices" name="end_devices" placeholder="미지정시 방송 대상과 동일">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="audioDuration" class="form-label">방송 지속 시간 (초, 미지정시 파일 길이만큼)</label>
+                                    <input type="number" class="form-control" id="audioDuration" name="duration" placeholder="미지정시 파일 길이만큼">
+                                </div>
+                                <button type="submit" class="btn btn-primary">방송 시작</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">텍스트 음성 방송 (TTS)</h5>
+                        </div>
+                        <div class="card-body">
+                            <form id="ttsForm">
+                                <div class="mb-3">
+                                    <label for="ttsText" class="form-label">방송할 텍스트</label>
+                                    <textarea class="form-control" id="ttsText" name="text" rows="3" required></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="ttsTargetDevices" class="form-label">방송 대상 장치 (쉼표로 구분)</label>
+                                    <input type="text" class="form-control" id="ttsTargetDevices" name="target_devices" placeholder="예: 1-1, 1-2, 3-5" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="ttsEndDevices" class="form-label">종료 후 끌 장치 (쉼표로 구분, 미지정시 대상과 동일)</label>
+                                    <input type="text" class="form-control" id="ttsEndDevices" name="end_devices" placeholder="미지정시 방송 대상과 동일">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="ttsLanguage" class="form-label">언어</label>
+                                    <select class="form-select" id="ttsLanguage" name="language">
+                                        <option value="ko" selected>한국어</option>
+                                        <option value="en">영어</option>
+                                        <option value="zh">중국어</option>
+                                        <option value="ja">일본어</option>
+                                        <option value="es">스페인어</option>
+                                        <option value="fr">프랑스어</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary">방송 시작</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-12">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">방송 제어</h5>
+                        </div>
+                        <div class="card-body">
+                            <button id="stopBroadcast" class="btn btn-danger">현재 방송 중지</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 예약 방송 탭 -->
+        <div class="tab-pane fade" id="schedule" role="tabpanel" aria-labelledby="schedule-tab">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">오디오 파일 방송 예약</h5>
+                        </div>
+                        <div class="card-body">
+                            <form id="scheduleAudioForm" enctype="multipart/form-data">
+                                <div class="mb-3">
+                                    <label for="scheduleAudioFile" class="form-label">오디오 파일 (WAV 형식)</label>
+                                    <input type="file" class="form-control" id="scheduleAudioFile" name="audio_file" accept=".wav" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="scheduleAudioTargetDevices" class="form-label">방송 대상 장치 (쉼표로 구분)</label>
+                                    <input type="text" class="form-control" id="scheduleAudioTargetDevices" name="target_devices" placeholder="예: 1-1, 1-2, 3-5" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="scheduleAudioEndDevices" class="form-label">종료 후 끌 장치 (쉼표로 구분, 미지정시 대상과 동일)</label>
+                                    <input type="text" class="form-control" id="scheduleAudioEndDevices" name="end_devices" placeholder="미지정시 방송 대상과 동일">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="scheduleAudioDuration" class="form-label">방송 지속 시간 (초, 미지정시 파일 길이만큼)</label>
+                                    <input type="number" class="form-control" id="scheduleAudioDuration" name="duration" placeholder="미지정시 파일 길이만큼">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="scheduleAudioTime" class="form-label">예약 시간</label>
+                                    <input type="datetime-local" class="form-control" id="scheduleAudioTime" name="schedule_time" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">방송 예약</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">텍스트 음성 방송 예약 (TTS)</h5>
+                        </div>
+                        <div class="card-body">
+                            <form id="scheduleTtsForm">
+                                <div class="mb-3">
+                                    <label for="scheduleTtsText" class="form-label">방송할 텍스트</label>
+                                    <textarea class="form-control" id="scheduleTtsText" name="text" rows="3" required></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="scheduleTtsTargetDevices" class="form-label">방송 대상 장치 (쉼표로 구분)</label>
+                                    <input type="text" class="form-control" id="scheduleTtsTargetDevices" name="target_devices" placeholder="예: 1-1, 1-2, 3-5" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="scheduleTtsEndDevices" class="form-label">종료 후 끌 장치 (쉼표로 구분, 미지정시 대상과 동일)</label>
+                                    <input type="text" class="form-control" id="scheduleTtsEndDevices" name="end_devices" placeholder="미지정시 방송 대상과 동일">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="scheduleTtsLanguage" class="form-label">언어</label>
+                                    <select class="form-select" id="scheduleTtsLanguage" name="language">
+                                        <option value="ko" selected>한국어</option>
+                                        <option value="en">영어</option>
+                                        <option value="zh">중국어</option>
+                                        <option value="ja">일본어</option>
+                                        <option value="es">스페인어</option>
+                                        <option value="fr">프랑스어</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="scheduleTtsTime" class="form-label">예약 시간</label>
+                                    <input type="datetime-local" class="form-control" id="scheduleTtsTime" name="schedule_time" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">방송 예약</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-12">
+                    <div class="card mb-4">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="card-title mb-0">예약된 방송 목록</h5>
+                            <button id="refreshScheduleList" class="btn btn-sm btn-outline-primary">새로고침</button>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>방송 유형</th>
+                                            <th>예약 시간</th>
+                                            <th>남은 시간</th>
+                                            <th>관리</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="scheduleList">
+                                        <tr>
+                                            <td colspan="5" class="text-center">예약된 방송이 없습니다.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">시스템 로그</h5>
+                </div>
+                <div class="card-body">
+                    <div id="logArea" class="p-3 bg-light border rounded" style="height: 200px; overflow-y: auto;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const logArea = document.getElementById('logArea');
+    
+    function addLog(message, isError = false) {
+        const logLine = document.createElement('div');
+        logLine.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+        if (isError) {
+            logLine.classList.add('text-danger');
+        }
+        logArea.appendChild(logLine);
+        logArea.scrollTop = logArea.scrollHeight;
+    }
+    
+    // 실시간 방송 - 오디오 파일 방송 폼 제출
+    document.getElementById('audioForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        
+        try {
+            addLog('오디오 파일 방송 요청 전송 중...');
+            
+            const response = await fetch('/api/broadcast/audio', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const result = await response.json();
+            
+            if (response.ok) {
+                addLog(`오디오 방송이 시작되었습니다. 대상: ${formData.get('target_devices')}`);
+            } else {
+                addLog(`방송 요청 실패: ${result.detail || '알 수 없는 오류'}`, true);
+            }
+        } catch (error) {
+            addLog(`오류 발생: ${error.message}`, true);
+        }
+    });
+    
+    // 실시간 방송 - TTS 방송 폼 제출
+    document.getElementById('ttsForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        
+        try {
+            addLog('TTS 방송 요청 전송 중...');
+            
+            const response = await fetch('/api/broadcast/text', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const result = await response.json();
+            
+            if (response.ok) {
+                addLog(`TTS 방송이 시작되었습니다. 대상: ${formData.get('target_devices')}`);
+            } else {
+                addLog(`방송 요청 실패: ${result.detail || '알 수 없는 오류'}`, true);
+            }
+        } catch (error) {
+            addLog(`오류 발생: ${error.message}`, true);
+        }
+    });
+    
+    // 방송 중지 버튼 클릭
+    document.getElementById('stopBroadcast').addEventListener('click', async function() {
+        try {
+            addLog('방송 중지 요청 전송 중...');
+            
+            const response = await fetch('/api/broadcast/stop', {
+                method: 'POST'
+            });
+            
+            const result = await response.json();
+            
+            if (response.ok) {
+                addLog('방송이 중지되었습니다.');
+            } else {
+                addLog(`방송 중지 실패: ${result.detail || '알 수 없는 오류'}`, true);
+            }
+        } catch (error) {
+            addLog(`오류 발생: ${error.message}`, true);
+        }
+    });
+    
+    // 방송 예약 - 오디오 파일
+    document.getElementById('scheduleAudioForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        
+        // datetime-local 형식을 YYYY-MM-DD HH:MM:SS 형식으로 변환
+        const datetimeLocal = document.getElementById('scheduleAudioTime').value;
+        if (datetimeLocal) {
+            const date = new Date(datetimeLocal);
+            formData.set('schedule_time', date.toISOString().slice(0, 19).replace('T', ' '));
+        }
+        
+        try {
+            addLog('오디오 파일 방송 예약 요청 전송 중...');
+            
+            const response = await fetch('/api/broadcast/schedule/audio', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const result = await response.json();
+            
+            if (response.ok) {
+                addLog(`오디오 방송이 예약되었습니다. 예약 시간: ${result.schedule_time}`);
+                loadScheduleList(); // 예약 목록 갱신
+            } else {
+                addLog(`방송 예약 실패: ${result.detail || '알 수 없는 오류'}`, true);
+            }
+        } catch (error) {
+            addLog(`오류 발생: ${error.message}`, true);
+        }
+    });
+    
+    // 방송 예약 - TTS
+    document.getElementById('scheduleTtsForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        
+        // datetime-local 형식을 YYYY-MM-DD HH:MM:SS 형식으로 변환
+        const datetimeLocal = document.getElementById('scheduleTtsTime').value;
+        if (datetimeLocal) {
+            const date = new Date(datetimeLocal);
+            formData.set('schedule_time', date.toISOString().slice(0, 19).replace('T', ' '));
+        }
+        
+        try {
+            addLog('TTS 방송 예약 요청 전송 중...');
+            
+            const response = await fetch('/api/broadcast/schedule/text', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const result = await response.json();
+            
+            if (response.ok) {
+                addLog(`TTS 방송이 예약되었습니다. 예약 시간: ${result.schedule_time}`);
+                loadScheduleList(); // 예약 목록 갱신
+            } else {
+                addLog(`방송 예약 실패: ${result.detail || '알 수 없는 오류'}`, true);
+            }
+        } catch (error) {
+            addLog(`오류 발생: ${error.message}`, true);
+        }
+    });
+    
+    // 예약 목록 조회
+    async function loadScheduleList() {
+        try {
+            const response = await fetch('/api/broadcast/schedule');
+            const schedules = await response.json();
+            
+            const scheduleList = document.getElementById('scheduleList');
+            scheduleList.innerHTML = '';
+            
+            if (schedules.length === 0) {
+                scheduleList.innerHTML = '<tr><td colspan="5" class="text-center">예약된 방송이 없습니다.</td></tr>';
+                return;
+            }
+            
+            schedules.forEach(schedule => {
+                const row = document.createElement('tr');
+                
+                // ID 열
+                const idCell = document.createElement('td');
+                idCell.textContent = schedule.job_id;
+                row.appendChild(idCell);
+                
+                // 방송 유형 열
+                const typeCell = document.createElement('td');
+                typeCell.textContent = schedule.name;
+                row.appendChild(typeCell);
+                
+                // 예약 시간 열
+                const timeCell = document.createElement('td');
+                timeCell.textContent = schedule.run_time;
+                row.appendChild(timeCell);
+                
+                // 남은 시간 열
+                const remainingCell = document.createElement('td');
+                remainingCell.textContent = schedule.remaining;
+                row.appendChild(remainingCell);
+                
+                // 관리 열
+                const actionCell = document.createElement('td');
+                const cancelButton = document.createElement('button');
+                cancelButton.className = 'btn btn-sm btn-danger';
+                cancelButton.textContent = '취소';
+                cancelButton.dataset.jobId = schedule.job_id;
+                cancelButton.addEventListener('click', cancelSchedule);
+                actionCell.appendChild(cancelButton);
+                row.appendChild(actionCell);
+                
+                scheduleList.appendChild(row);
+            });
+        } catch (error) {
+            addLog(`예약 목록 조회 중 오류 발생: ${error.message}`, true);
+        }
+    }
+    
+    // 예약 취소
+    async function cancelSchedule(e) {
+        const jobId = e.target.dataset.jobId;
+        
+        try {
+            addLog(`예약 방송 취소 요청 중 (ID: ${jobId})...`);
+            
+            const response = await fetch(`/api/broadcast/schedule/${jobId}`, {
+                method: 'DELETE'
+            });
+            
+            const result = await response.json();
+            
+            if (response.ok) {
+                addLog(`예약 방송이 취소되었습니다. (ID: ${jobId})`);
+                loadScheduleList(); // 예약 목록 갱신
+            } else {
+                addLog(`예약 취소 실패: ${result.detail || '알 수 없는 오류'}`, true);
+            }
+        } catch (error) {
+            addLog(`오류 발생: ${error.message}`, true);
+        }
+    }
+    
+    // 예약 목록 새로고침
+    document.getElementById('refreshScheduleList').addEventListener('click', function() {
+        addLog('예약 목록을 새로고침합니다...');
+        loadScheduleList();
+    });
+    
+    // 페이지 로드 시 예약 목록 조회
+    loadScheduleList();
+    
+    // 초기 로그
+    addLog('방송 관리 시스템이 준비되었습니다.');
+    
+    // 현재 날짜와 시간으로 예약 시간 필드 초기화
+    const now = new Date();
+    now.setMinutes(now.getMinutes() + 1); // 현재 시간보다 1분 후로 설정
+    const isoString = now.toISOString().slice(0, 16);
+    document.getElementById('scheduleAudioTime').value = isoString;
+    document.getElementById('scheduleTtsTime').value = isoString;
+});
+</script>
+{% endblock %} 

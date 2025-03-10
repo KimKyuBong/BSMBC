@@ -3,6 +3,25 @@
 스케줄 관련 데이터 모델
 Pydantic을 사용한 스케줄 관련 데이터 모델 정의
 """
+#
+# TODO: 스케줄 모델 개선 계획
+# ----------------------------------------------------------------------
+# 1. 방송 스케줄 모델 확장:
+#   - 기존 모델은 단순 타이머 스케줄용으로 설계됨
+#   - 방송 스케줄을 위한 새로운 필드 필요:
+#     - schedule_type: "timer" | "broadcast" (어떤 종류의 스케줄인지)
+#     - content_type: "text" | "audio" (방송 스케줄일 때 컨텐츠 유형)
+#     - content: 방송 텍스트 또는 오디오 파일 경로
+#     - target_devices: 방송할 장치 목록 
+#     - end_devices: 방송 종료 후 끌 장치 목록
+#     - duration: 방송 지속 시간 (오디오 파일인 경우)
+#     - language: 텍스트 언어 (TTS 방송인 경우)
+#
+# 2. 새로운 모델 추가:
+#   - BroadcastScheduleCreate: 방송 스케줄 생성용 모델
+#   - BroadcastScheduleResponse: 방송 스케줄 응답용 모델
+# ----------------------------------------------------------------------
+
 from pydantic import BaseModel, Field, validator
 from typing import Optional, List, Union
 import re

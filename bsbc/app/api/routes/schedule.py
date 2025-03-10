@@ -3,6 +3,27 @@
 스케줄 관련 API 라우터
 방송 스케줄 관련 API 엔드포인트를 정의합니다.
 """
+#
+# TODO: 스케줄 관련 API 정리 계획
+# ----------------------------------------------------------------------
+# 1. 엔드포인트 통합:
+#    - broadcast.py에서 다음 엔드포인트를 이곳으로 이동:
+#      - POST /api/broadcast/schedule/text
+#      - POST /api/broadcast/schedule/audio  
+#      - GET /api/broadcast/schedule
+#      - DELETE /api/broadcast/schedule/{job_id}
+#
+# 2. 새로운 엔드포인트 구조:
+#    - GET /api/schedule/ - 모든 스케줄 조회
+#    - GET /api/schedule/{id} - 특정 스케줄 조회
+#    - POST /api/schedule/ - 스케줄 생성
+#       - type 필드로 "text" 또는 "audio" 구분
+#    - DELETE /api/schedule/{id} - 스케줄 삭제
+#    - PUT /api/schedule/{id} - 스케줄 업데이트
+#    - POST /api/schedule/start - 스케줄러 시작
+#    - POST /api/schedule/stop - 스케줄러 중지
+# ----------------------------------------------------------------------
+
 from fastapi import APIRouter, HTTPException, Path, Query, Body
 from fastapi.responses import JSONResponse
 from datetime import datetime
@@ -14,7 +35,6 @@ from ...services.broadcast_controller import broadcast_controller
 
 # 라우터 생성
 router = APIRouter(
-    prefix="/api/schedule",
     tags=["schedule"],
     responses={404: {"description": "Not found"}},
 )

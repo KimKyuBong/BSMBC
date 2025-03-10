@@ -4,4 +4,14 @@ pydantic>=1.10.7
 scapy>=2.5.0
 python-multipart>=0.0.6
 jinja2>=3.1.2
-aiofiles>=23.1.0 
+aiofiles>=23.1.0
+# 오디오 처리 및 TTS를 위한 라이브러리
+pydub>=0.25.1
+pytest-playwright
+MeloTTS>=0.1.2
+python-vlc>=3.0.16120
+numpy>=1.24.0
+scipy>=1.10.0
+torch>=2.0.0
+# 스케줄링을 위한 라이브러리
+APScheduler>=3.10.0 
