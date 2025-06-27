@@ -145,37 +145,9 @@ class BroadcastController:
                 # 룸 ID 계산 (예: 1학년 1반 -> 101)
                 room_id = grade * 100 + class_num
             else:
-                # 특수 공간 매핑 (이미지에 표시된 순서대로)
-                special_rooms = {
-                    "교무실": 1001,
-                    "과학실": 1002,
-                    "정의교실": 1003,
-                    "남여휴게실": 1004,
-                    "교무실2": 1005,
-                    "학생식당": 1006,
-                    "위클래식": 1007,
-                    "프로그램실": 1008,
-                    "교무2처": 1009,
-                    "진로상담": 1010,
-                    "모듈1실": 1011,
-                    "정의교실2": 1012,
-                    "A1호실": 1013,
-                    "B2호실": 1014,
-                    "A2호실": 1015,
-                    "B3호실": 1016,
-                    "방송실-1": 1017,
-                    "방송실-2": 1018,
-                    "방송실-3": 1019,
-                    "별관1-1": 1020,
-                    "별관2-1": 1021,
-                    "별관2-2": 1022,
-                    "운동장": 1023,
-                    "옥외": 1024
-                }
-                
-                if device_name in special_rooms:
-                    room_id = special_rooms[device_name]
-                else:
+                # device_mapper를 사용하여 장치 ID 가져오기
+                room_id = self.device_mapper._get_device_id(device_name)
+                if room_id is None:
                     print(f"[!] 알 수 없는 특수 공간: {device_name}")
                     return False
             
@@ -245,40 +217,12 @@ class BroadcastController:
                         room_id = grade * 100 + class_num
                         print(f"[*] 학년-반 처리: {device_name} -> ID {room_id}")
                     else:
-                        # 특수 공간 매핑 (이미지에 표시된 순서대로)
-                        special_rooms = {
-                            "교무실": 1001,
-                            "과학실": 1002,
-                            "정의교실": 1003,
-                            "남여휴게실": 1004,
-                            "교무실2": 1005,
-                            "학생식당": 1006,
-                            "위클래식": 1007,
-                            "프로그램실": 1008,
-                            "교무2처": 1009,
-                            "진로상담": 1010,
-                            "모듈1실": 1011,
-                            "정의교실2": 1012,
-                            "A1호실": 1013,
-                            "B2호실": 1014,
-                            "A2호실": 1015,
-                            "B3호실": 1016,
-                            "방송실-1": 1017,
-                            "방송실-2": 1018,
-                            "방송실-3": 1019,
-                            "별관1-1": 1020,
-                            "별관2-1": 1021,
-                            "별관2-2": 1022,
-                            "운동장": 1023,
-                            "옥외": 1024
-                        }
-                        
-                        if device_name in special_rooms:
-                            room_id = special_rooms[device_name]
-                            print(f"[*] 특수공간 처리: {device_name} -> ID {room_id}")
-                        else:
+                        # device_mapper를 사용하여 장치 ID 가져오기
+                        room_id = self.device_mapper._get_device_id(device_name)
+                        if room_id is None:
                             print(f"[!] 알 수 없는 장치명: {device_name}")
                             continue
+                        print(f"[*] 특수공간 처리: {device_name} -> ID {room_id}")
                 else:
                     print(f"[!] 지원되지 않는 데이터 타입: {type(device_name).__name__}")
                     continue

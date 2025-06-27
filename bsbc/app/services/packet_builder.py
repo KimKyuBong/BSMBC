@@ -133,6 +133,65 @@ class PacketBuilder:
         
         return bytes(packet)
     
+    def _get_special_space_byte_bit(self, room_id):
+        """
+        특수 공간 ID를 바이트/비트 위치로 매핑
+        
+        Parameters:
+        -----------
+        room_id : int
+            특수 공간 ID (예: 1031, 1032, 1023 등)
+            
+        Returns:
+        --------
+        tuple
+            (byte_pos, bit_pos) 또는 None
+        """
+        # 특수 공간 ID 매핑 (패킷 분석 결과 기반)
+        special_space_mapping = {
+            # 바이트 10 (비트 0-7): 1-8번째 특수 공간
+            1031: (10, 0),  # 교행연회
+            1032: (10, 1),  # 교사연구
+            1033: (10, 2),  # 매점
+            1034: (10, 3),  # 보건학부
+            1035: (10, 4),  # 컴퓨터12
+            1036: (10, 5),  # 과학준비
+            1037: (10, 6),  # 창의준비
+            1038: (10, 7),  # 남여휴게
+            
+            # 바이트 11 (비트 0-7): 9-16번째 특수 공간
+            1039: (11, 0),  # 교무실
+            1040: (11, 1),  # 학생식당
+            1041: (11, 2),  # 위클회의
+            1042: (11, 3),  # 프로그12
+            1043: (11, 4),  # 전문교무
+            1044: (11, 5),  # 진로상담
+            1045: (11, 6),  # 모둠12
+            1046: (11, 7),  # 창의공작
+            
+            # 바이트 12 (비트 0-7): 17-24번째 특수 공간
+            1047: (12, 0),  # 본관1층
+            1048: (12, 1),  # 융합관1층
+            1049: (12, 2),  # 본관2층
+            1050: (12, 3),  # 융합관2층
+            1051: (12, 4),  # 융합관3층
+            1052: (12, 5),  # 강당
+            1053: (12, 6),  # 방송실
+            1054: (12, 7),  # 별관1-1
+            
+            # 바이트 13 (비트 0-7): 25-32번째 특수 공간
+            1055: (13, 0),  # 별관1-2
+            1056: (13, 1),  # 별관1-3
+            1057: (13, 2),  # 별관2-1
+            1058: (13, 3),  # 별관2-2
+            # 29, 30번째는 공백 (1059, 1060은 사용하지 않음)
+            1061: (13, 6),  # 운동장 (31번째)
+            1062: (13, 7),  # 옥외 (32번째)
+            # 나머지 2개는 미사용 또는 향후 확장용
+        }
+        
+        return special_space_mapping.get(room_id)
+    
     def create_device_payload(self, device_name, state=1):
         """장치명을 기준으로 제어 패킷 생성
         
@@ -151,7 +210,6 @@ class PacketBuilder:
         payload[3:10] = bytes.fromhex("43420100000000")  # 나머지 헤더 부분
         
         # 장치명에 따라 직접 바이트 위치 설정
-        # 장치 매퍼를 통한 좌표 기반 일관성 있는 매핑
         try:
             # 장치 매퍼를 통해 장치명에 해당하는 좌표 얻기
             coords = self.device_mapper.get_device_coords(device_name)
@@ -163,8 +221,20 @@ class PacketBuilder:
             row, col = coords
             byte_pos, bit_pos = self.device_mapper.get_byte_bit_position(row, col)
             
-            # 디버그 정보 출력
-            print(f"[*] 장치: {device_name} -> 좌표 ({row}, {col}) -> 바이트 {byte_pos}, 비트 {bit_pos}")
+            # 특수 공간인지 확인 (room_id가 1000 이상인 경우)
+            room_id = self.device_mapper._get_device_id(device_name)
+            if room_id and room_id >= 1000:
+                # 특수 공간 ID를 바이트/비트로 매핑
+                special_pos = self._get_special_space_byte_bit(room_id)
+                if special_pos:
+                    byte_pos, bit_pos = special_pos
+                    print(f"[*] 특수 공간 처리: {device_name} (ID: {room_id}) -> 바이트 {byte_pos}, 비트 {bit_pos}")
+                else:
+                    print(f"[!] 알 수 없는 특수 공간 ID: {room_id}")
+                    return None
+            else:
+                # 일반 교실 처리
+                print(f"[*] 일반 교실 처리: {device_name} -> 좌표 ({row}, {col}) -> 바이트 {byte_pos}, 비트 {bit_pos}")
             
             # 상태에 따라 비트 설정 또는 해제
             if state:

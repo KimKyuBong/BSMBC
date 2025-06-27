@@ -350,8 +350,8 @@ async def run_input_channel_test():
 async def broadcast_audio(
     background_tasks: BackgroundTasks,
     audio_file: UploadFile = File(..., description="방송할 오디오 파일"),
-    target_devices: str = Form(..., description="방송할 장치 목록 (쉼표로 구분)"),
-    end_devices: Optional[str] = Form(None, description="방송 종료 후 끌 장치 목록 (쉼표로 구분)"),
+    target_devices: str = Form("", description="방송할 장치 목록 (쉼표로 구분, 비어있으면 전체 장치)"),
+    end_devices: Optional[str] = Form(None, description="방송 종료 후 끌 장치 목록 (쉼표로 구분, 비어있으면 전체 장치)"),
     duration: Optional[int] = Form(None, description="방송 지속 시간(초) (미지정시 파일 길이만큼 재생)")
 ):
     """
@@ -361,13 +361,19 @@ async def broadcast_audio(
         # 장치 목록 파싱
         target_device_list = [d.strip() for d in target_devices.split(",") if d.strip()]
         
+        # target_devices가 비어있으면 전체 장치로 설정
         if not target_device_list:
-            raise HTTPException(status_code=400, detail="방송 대상 장치가 지정되지 않았습니다")
+            target_device_list = list(broadcast_controller.device_mapper.device_map.values())
+            print(f"[*] 방송 대상 장치가 지정되지 않아 전체 장치({len(target_device_list)}개)로 설정합니다.")
             
         # 종료 시 끌 장치 목록 파싱 (지정된 경우)
         end_device_list = None
         if end_devices:
             end_device_list = [d.strip() for d in end_devices.split(",") if d.strip()]
+            # end_devices가 비어있으면 전체 장치로 설정
+            if not end_device_list:
+                end_device_list = list(broadcast_controller.device_mapper.device_map.values())
+                print(f"[*] 종료 후 끌 장치가 지정되지 않아 전체 장치({len(end_device_list)}개)로 설정합니다.")
         
         # 임시 파일 생성
         temp_file_path = AUDIO_DIR / f"{uuid.uuid4()}.wav"
@@ -405,8 +411,8 @@ async def broadcast_audio(
 async def broadcast_text(
     background_tasks: BackgroundTasks,
     text: str = Form(..., description="방송할 텍스트"),
-    target_devices: str = Form(..., description="방송할 장치 목록 (쉼표로 구분)"),
-    end_devices: Optional[str] = Form(None, description="방송 종료 후 끌 장치 목록 (쉼표로 구분)"),
+    target_devices: str = Form("", description="방송할 장치 목록 (쉼표로 구분, 비어있으면 전체 장치)"),
+    end_devices: Optional[str] = Form(None, description="방송 종료 후 끌 장치 목록 (쉼표로 구분, 비어있으면 전체 장치)"),
     language: str = Form("ko", description="텍스트 언어 (ko, en, zh, ja, es, fr)")
 ):
     """
@@ -416,13 +422,19 @@ async def broadcast_text(
         # 장치 목록 파싱
         target_device_list = [d.strip() for d in target_devices.split(",") if d.strip()]
         
+        # target_devices가 비어있으면 전체 장치로 설정
         if not target_device_list:
-            raise HTTPException(status_code=400, detail="방송 대상 장치가 지정되지 않았습니다")
+            target_device_list = list(broadcast_controller.device_mapper.device_map.values())
+            print(f"[*] 방송 대상 장치가 지정되지 않아 전체 장치({len(target_device_list)}개)로 설정합니다.")
             
         # 종료 시 끌 장치 목록 파싱 (지정된 경우)
         end_device_list = None
         if end_devices:
             end_device_list = [d.strip() for d in end_devices.split(",") if d.strip()]
+            # end_devices가 비어있으면 전체 장치로 설정
+            if not end_device_list:
+                end_device_list = list(broadcast_controller.device_mapper.device_map.values())
+                print(f"[*] 종료 후 끌 장치가 지정되지 않아 전체 장치({len(end_device_list)}개)로 설정합니다.")
         
         # 로그에 전체 장치 목록 출력
         print(f"[*] 방송 대상 장치 목록: {target_device_list}")
@@ -602,8 +614,8 @@ async def stop_broadcast():
 async def schedule_broadcast_audio(
     background_tasks: BackgroundTasks,
     audio_file: UploadFile = File(..., description="방송할 오디오 파일"),
-    target_devices: str = Form(..., description="방송할 장치 목록 (쉼표로 구분)"),
-    end_devices: Optional[str] = Form(None, description="방송 종료 후 끌 장치 목록 (쉼표로 구분)"),
+    target_devices: str = Form("", description="방송할 장치 목록 (쉼표로 구분, 비어있으면 전체 장치)"),
+    end_devices: Optional[str] = Form(None, description="방송 종료 후 끌 장치 목록 (쉼표로 구분, 비어있으면 전체 장치)"),
     duration: Optional[int] = Form(None, description="방송 지속 시간(초) (미지정시 파일 길이만큼 재생)"),
     schedule_time: str = Form(..., description="예약 시간 (YYYY-MM-DD HH:MM:SS)")
 ):
@@ -614,13 +626,19 @@ async def schedule_broadcast_audio(
         # 장치 목록 파싱
         target_device_list = [d.strip() for d in target_devices.split(",") if d.strip()]
         
+        # target_devices가 비어있으면 전체 장치로 설정
         if not target_device_list:
-            raise HTTPException(status_code=400, detail="방송 대상 장치가 지정되지 않았습니다")
+            target_device_list = list(broadcast_controller.device_mapper.device_map.values())
+            print(f"[*] 방송 대상 장치가 지정되지 않아 전체 장치({len(target_device_list)}개)로 설정합니다.")
             
         # 종료 시 끌 장치 목록 파싱 (지정된 경우)
         end_device_list = None
         if end_devices:
             end_device_list = [d.strip() for d in end_devices.split(",") if d.strip()]
+            # end_devices가 비어있으면 전체 장치로 설정
+            if not end_device_list:
+                end_device_list = list(broadcast_controller.device_mapper.device_map.values())
+                print(f"[*] 종료 후 끌 장치가 지정되지 않아 전체 장치({len(end_device_list)}개)로 설정합니다.")
         
         # 임시 파일 생성
         temp_file_path = Path(os.path.join(config.app_data_dir, "audio", f"{uuid.uuid4()}.wav"))
