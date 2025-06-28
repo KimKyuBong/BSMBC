@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
 """
 네트워크 통신 모듈
-방송 시스템과의 통신을 관리합니다.
+방송 시스템의 패킷 생성 및 통신을 처리합니다.
 """
 import socket
 from scapy.all import IFACES
+from .packet_builder import PacketBuilder
 
 class NetworkManager:
     """
-    네트워크 관리 클래스
-    방송 시스템과의 소켓 통신을 처리합니다.
+    네트워크 통신 관리 클래스
+    패킷 생성 및 방송 장비와의 통신을 처리합니다.
     """
     def __init__(self, target_ip="192.168.0.200", target_port=22000, interface=None):
         """
@@ -31,160 +32,212 @@ class NetworkManager:
         # 패킷 카운터 초기화
         self.packet_counter = 0
         
-    def print_interface_info(self):
-        """인터페이스 정보 출력"""
-        try:
-            iface_data = None
-            for name, data in IFACES.items():
-                if name == self.interface:
-                    iface_data = data
-                    break
-                    
-            if iface_data:
-                print(f"[*] 사용 중인 인터페이스: {self.interface}")
-                print(f"    - 설명: {iface_data.description}")
-                print(f"    - IP 주소: {iface_data.ip or 'IP 없음'}")
-                print(f"    - MAC 주소: {iface_data.mac or 'MAC 없음'}")
-        except Exception as e:
-            print(f"[!] 인터페이스 정보 조회 실패: {e}")
+        # 패킷 빌더 초기화
+        self.packet_builder = PacketBuilder()
+        
+        # 네트워크 인터페이스 설정
+        if interface is None:
+            self.interface = self._get_default_interface()
     
-    def send_payload(self, payload):
+    def _get_default_interface(self):
+        """기본 네트워크 인터페이스 선택"""
+        try:
+            interfaces = IFACES.show(resolve_mac=False, print_result=False)
+            if interfaces and isinstance(interfaces, dict):
+                # 첫 번째 인터페이스 선택
+                return list(interfaces.keys())[0]
+        except Exception as e:
+            print(f"[!] 인터페이스 선택 중 오류: {e}")
+        return None
+    
+    def send_payload(self, payload, timeout=5):
         """
-        방송 장비에 페이로드 전송
+        페이로드를 방송 장비로 전송 (2번 연속 전송)
+        Returns:
+            (bool, bytes|None): (성공여부, 마지막 응답값)
+        """
+        last_response = None
+        try:
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sock.settimeout(timeout)
+            sock.connect((self.target_ip, self.target_port))
+            for i in range(2):
+                sock.send(payload)
+                print(f"[*] 패킷 전송 {i+1}/2: {len(payload)}바이트")
+                try:
+                    response = sock.recv(1024)
+                    if response:
+                        print(f"[*] 응답 수신: {response.hex()}")
+                        last_response = response
+                except socket.timeout:
+                    print(f"[!] 응답 타임아웃 {i+1}/2")
+            sock.close()
+            self.packet_counter += 1
+            return True, last_response
+        except Exception as e:
+            print(f"[!] 패킷 전송 실패: {e}")
+            return False, None
+    
+    def send_payload_single(self, payload, timeout=5):
+        """
+        페이로드를 방송 장비로 전송 (1번만 전송)
+        Returns:
+            (bool, bytes|None): (성공여부, 응답값)
+        """
+        try:
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sock.settimeout(timeout)
+            sock.connect((self.target_ip, self.target_port))
+            sock.send(payload)
+            print(f"[*] 패킷 전송: {len(payload)}바이트")
+            response = None
+            try:
+                response = sock.recv(1024)
+                if response:
+                    print(f"[*] 응답 수신: {response.hex()}")
+            except socket.timeout:
+                print(f"[!] 응답 타임아웃")
+            sock.close()
+            self.packet_counter += 1
+            return True, response
+        except Exception as e:
+            print(f"[!] 패킷 전송 실패: {e}")
+            return False, None
+    
+    def send_coordinate_packet(self, row, col, state):
+        """
+        특정 좌표 장비 상태 패킷 전송
         
         Parameters:
         -----------
-        payload : bytes
-            전송할 페이로드 데이터
+        row : int
+            행 번호 (1-4)
+        col : int
+            열 번호 (1-16)
+        state : int
+            0: 끄기, 1: 켜기
             
         Returns:
         --------
-        tuple(bool, bytes)
-            성공 여부와 응답 데이터
+        tuple(bool, bytes|None)
+            (전송 성공 여부, 응답 데이터)
         """
-        if payload is None:
-            print("[!] 유효하지 않은 페이로드")
-            return False, None
-        
-        try:
-            # 소켓 생성
-            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            
-            # 연결 타임아웃 설정 (3초)
-            s.settimeout(3)
-            
-            print(f"[*] {self.target_ip}:{self.target_port}에 연결 중...")
-            # TCP 연결 시도
-            s.connect((self.target_ip, self.target_port))
-            
-            # 소스 포트 확인
-            source_port = s.getsockname()[1]
-            
-            print(f"[*] 패킷 정보:")
-            print(f"    - 소스 IP: 192.168.0.100, 포트: {source_port}")
-            print(f"    - 대상 IP: {self.target_ip}, 포트: {self.target_port}")
-            
-            # 페이로드 디버깅 정보 추가
-            print(f"    - 페이로드 길이: {len(payload)} 바이트 (헥스: {len(payload):02x}h)")
-            
-            # 페이로드가 예상 길이(46바이트)와 다를 경우 경고
-            if len(payload) != 46:
-                print(f"    - [!] 주의: 예상 길이(46바이트)와 다릅니다!")
-            
-            # 페이로드 헥스값 출력 (보기 좋게 정렬)
-            hex_str = payload.hex()
-            for i in range(0, len(hex_str), 32):
-                if i == 0:
-                    print(f"    - 페이로드 헥스: {hex_str[i:i+32]}")
-                else:
-                    print(f"                    {hex_str[i:i+32]}")
-            
-            print(f"    - 페이로드 마지막 4바이트: {payload[-4:].hex()}")
-            
-            # 페이로드 전송
-            print(f"\n[*] 데이터 전송 중...")
-            s.sendall(payload)
-            
-            # 응답 데이터
-            response_data = None
-            
-            # 응답 대기 (최대 3초)
-            try:
-                print("[*] 응답 대기 중...")
-                response = s.recv(1024)
-                if response:
-                    print(f"[+] 응답 수신: {len(response)} 바이트")
-                    print(f"    - 헥스: {response.hex()}")
-                    response_data = response
-                else:
-                    print("[!] 응답 없음")
-            except socket.timeout:
-                print("[!] 응답 타임아웃")
-            
-            # 연결 종료
-            s.close()
-            
-            print("[+] 패킷 전송 완료")
-            self.packet_counter += 1
-            return True, response_data
-            
-        except ConnectionRefusedError:
-            print(f"[!] 연결 거부됨: {self.target_ip}:{self.target_port}")
-        except socket.timeout:
-            print(f"[!] 연결 타임아웃: {self.target_ip}:{self.target_port}")
-        except Exception as e:
-            print(f"[!] 패킷 전송 실패: {e}")
-        
+        payload = self.packet_builder.create_coordinate_payload(row, col, state)
+        if payload:
+            return self.send_payload_single(payload)
         return False, None
     
-    def initialize_connection(self):
+    def send_current_state_packet(self, active_rooms):
         """
-        서버 연결 초기화 및 상태 확인
+        현재 상태 패킷 전송
+        
+        Parameters:
+        -----------
+        active_rooms : set
+            활성화된 방 번호 집합
+            
+        Returns:
+        --------
+        (bool, bytes|None)
+            (전송 성공 여부, 응답 데이터)
+        """
+        print(f"[*] NetworkManager: 현재 상태 패킷 전송 시작 (활성 방: {sorted(active_rooms)})")
+        
+        try:
+            payload = self.packet_builder.create_current_state_payload(active_rooms)
+            if payload:
+                print(f"[*] NetworkManager: 패킷 생성 완료 ({len(payload)}바이트)")
+                print(f"[*] NetworkManager: 패킷 헥스: {payload.hex()}")
+                
+                success, response = self.send_payload_single(payload)
+                
+                if success:
+                    print(f"[*] NetworkManager: 패킷 전송 성공")
+                    if response:
+                        print(f"[*] NetworkManager: 응답 수신: {response.hex()}")
+                    return True, response
+                else:
+                    print(f"[!] NetworkManager: 패킷 전송 실패")
+                    return False, response
+            else:
+                print(f"[!] NetworkManager: 패킷 생성 실패")
+                return False, None
+                
+        except Exception as e:
+            print(f"[!] NetworkManager: 패킷 전송 중 오류: {e}")
+            return False, None
+    
+    def get_packet_counter(self):
+        """전송된 패킷 수 조회"""
+        return self.packet_counter
+    
+    def reset_packet_counter(self):
+        """패킷 카운터 초기화"""
+        self.packet_counter = 0
+        print("[*] 패킷 카운터 초기화")
+    
+    def test_connection(self):
+        """
+        방송 장비 연결 테스트
         
         Returns:
         --------
-        tuple(bool, bytes)
-            성공 여부와 응답 데이터
+        bool
+            연결 성공 여부
         """
-        print("[*] 서버 연결 초기화 중...")
-        
         try:
-            # 소켓 생성 및 서버 연결
-            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            s.settimeout(3)
-            s.connect((self.target_ip, self.target_port))
-            
-            # 상태 요청 패킷 생성 (빈 패킷으로 서버에 연결만 해도 상태를 응답함)
-            empty_payload = bytes.fromhex("022d0043420100000000000000000000000000000000000000000000000000000000000000000000002f0300")
-            
-            # 패킷 전송
-            print("[*] 상태 요청 패킷 전송 중...")
-            s.sendall(empty_payload)
-            
-            # 응답 데이터
-            response_data = None
-            
-            # 응답 대기
-            try:
-                print("[*] 서버 응답 대기 중...")
-                response = s.recv(1024)
-                if response:
-                    print(f"[+] 응답 수신: {len(response)} 바이트")
-                    print(f"    - 헥스: {response.hex()}")
-                    response_data = response
-                else:
-                    print("[!] 응답 없음")
-            except socket.timeout:
-                print("[!] 응답 타임아웃")
-            
-            # 연결 종료
-            s.close()
-            
-            return (response_data is not None), response_data
-            
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sock.settimeout(3)
+            sock.connect((self.target_ip, self.target_port))
+            sock.close()
+            print(f"[*] 연결 테스트 성공: {self.target_ip}:{self.target_port}")
+            return True
         except Exception as e:
-            print(f"[!] 서버 연결 초기화 실패: {e}")
+            print(f"[!] 연결 테스트 실패: {e}")
+            return False
+
+    def initialize_connection(self):
+        """
+        네트워크 연결 초기화 및 상태 확인
+        
+        Returns:
+        --------
+        tuple
+            (성공여부, 응답데이터)
+        """
+        try:
+            # 연결 테스트
+            if not self.test_connection():
+                return False, None
+            
+            # 모든 장비 OFF 패킷 전송으로 초기화
+            payload = self.packet_builder.create_all_off_payload()
+            if payload:
+                success, response = self.send_payload(payload)
+                if success:
+                    print("[*] 네트워크 연결 초기화 완료")
+                    return True, response
+                else:
+                    print("[!] 네트워크 초기화 패킷 전송 실패")
+                    return False, None
+            else:
+                print("[!] 초기화 패킷 생성 실패")
+                return False, None
+                
+        except Exception as e:
+            print(f"[!] 네트워크 연결 초기화 중 오류: {e}")
             return False, None
+
+    def print_interface_info(self):
+        """네트워크 인터페이스 정보 출력"""
+        try:
+            print(f"[*] 네트워크 설정:")
+            print(f"    - 대상 IP: {self.target_ip}")
+            print(f"    - 대상 포트: {self.target_port}")
+            print(f"    - 인터페이스: {self.interface}")
+            print(f"    - 전송된 패킷 수: {self.packet_counter}")
+        except Exception as e:
+            print(f"[!] 네트워크 인터페이스 정보 출력 중 오류: {e}")
 
 # 싱글톤 인스턴스 생성
 network_manager = NetworkManager() 

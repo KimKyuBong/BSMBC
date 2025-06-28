@@ -1,29 +1,64 @@
 from scapy.all import sniff, TCP, IP
 import datetime
+import json
+import os
 
 TARGET_IP = "192.168.0.200"
 TARGET_PORT = 22000
 
-print(f"패킷 캡처 시작: {TARGET_IP}:{TARGET_PORT}로 나가는 패킷을 모니터링합니다.")
-print("Ctrl+C로 종료하세요.")
+# JSON 파일 경로
+JSON_FILE = "captured_packets_all.json"
 
+# 기존 파일이 있으면 로드, 없으면 새로 생성
+if os.path.exists(JSON_FILE):
+    with open(JSON_FILE, 'r', encoding='utf-8') as f:
+        packets = json.load(f)
+else:
+    packets = []
+
+print(f"패킷 캡처 시작: {TARGET_IP}:{TARGET_PORT}")
+print(f"저장 파일: {JSON_FILE}")
+print("SEND(켜는 신호) 패킷만 캡처")
+print("Ctrl+C로 종료")
+
+def save_packets():
+    with open(JSON_FILE, 'w', encoding='utf-8') as f:
+        json.dump(packets, f, ensure_ascii=False, indent=2)
+
+def is_turn_on_packet(raw):
+    # 10~23번 바이트 중 하나라도 0이 아니면 켜는 신호로 간주
+    if len(raw) >= 24:
+        for i in range(10, 24):
+            if raw[i] != 0:
+                return True
+    return False
 
 def packet_callback(pkt):
     if IP in pkt and TCP in pkt:
+        raw = bytes(pkt[TCP].payload)
+        if len(raw) == 0:
+            return
+        now = datetime.datetime.now().strftime("%H:%M:%S")
+        direction = None
         if pkt[IP].dst == TARGET_IP and pkt[TCP].dport == TARGET_PORT:
-            raw = bytes(pkt[TCP].payload)
-            if len(raw) == 0:
-                return  # 데이터 없는 패킷은 무시
-            now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            print("\n" + "="*60)
-            print(f"[{now}] 패킷 캡처: {pkt[IP].dst}:{pkt[TCP].dport}")
-            print(f"HEX: {raw.hex()}")
-            print(f"LEN: {len(raw)} bytes")
-            print("="*60)
+            direction = "recv"
+        elif pkt[IP].src == TARGET_IP and pkt[TCP].sport == TARGET_PORT:
+            direction = "send"
+        # SEND + 켜는 신호만 저장
+        if direction == "send" and is_turn_on_packet(raw):
+            packet_data = {
+                "timestamp": now,
+                "hex_data": raw.hex(),
+                "length": len(raw),
+                "direction": direction
+            }
+            packets.append(packet_data)
+            save_packets()  # 실시간으로 파일에 저장
+            print(f"[{now}] {direction.upper()} 켜는 패킷: {raw.hex()}")
 
 try:
-    sniff(filter=f"tcp and dst host {TARGET_IP} and dst port {TARGET_PORT}", prn=packet_callback, store=0)
+    sniff(filter=f"tcp and (host {TARGET_IP} and port {TARGET_PORT})", prn=packet_callback, store=0)
 except PermissionError:
-    print("[!] 관리자 권한으로 실행해야 합니다.")
+    print("[!] 관리자 권한 필요")
 except KeyboardInterrupt:
-    print("\n[!] 캡처를 종료합니다.") 
+    print(f"\n종료 - 총 {len(packets)}개 패킷 저장됨") 

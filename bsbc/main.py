@@ -10,9 +10,10 @@ from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 from starlette.middleware.base import BaseHTTPMiddleware
 import time
+from pathlib import Path
 
 from app.core.config import config
-from app.api.routes import broadcast, schedule
+from app.api.routes import broadcast, schedule, device_matrix
 from app.core.security import verify_ip_and_api_key, get_security_manager
 
 # 보안 관리자 초기화 (싱글톤)
@@ -57,12 +58,12 @@ class SecurityMiddleware(BaseHTTPMiddleware):
 # 보안 미들웨어 등록
 app.add_middleware(SecurityMiddleware)
 
-# 정적 파일 및 템플릿 설정
-try:
-    app.mount("/static", StaticFiles(directory="app/static"), name="static")
-    templates = Jinja2Templates(directory="app/templates")
-except:
-    print("경고: 정적 파일 또는 템플릿 디렉토리가 없습니다.")
+# 정적 파일과 템플릿 설정
+static_path = Path(__file__).parent / "app" / "static"
+template_path = Path(__file__).parent / "app" / "templates"
+
+app.mount("/static", StaticFiles(directory=str(static_path)), name="static")
+templates = Jinja2Templates(directory=str(template_path))
 
 """
 TODO: API 구조 정리 계획
@@ -82,9 +83,10 @@ TODO: API 구조 정리 계획
 ----------------------------------------------------------------------
 """
 
-# 라우트 포함
-app.include_router(broadcast.router, prefix="/api/broadcast", tags=["방송 제어"])
+# API 라우터 등록
+app.include_router(broadcast.router, prefix="/api/broadcast", tags=["방송 API"])
 app.include_router(schedule.router, prefix="/api/schedule", tags=["방송 일정"])
+app.include_router(device_matrix.router, prefix="/api", tags=["장치 매트릭스"])
 
 @app.get("/", tags=["기본"])
 async def root():
@@ -110,6 +112,13 @@ async def broadcast_page(request: Request):
     방송 관리 페이지
     """
     return templates.TemplateResponse("broadcast.html", {"request": request})
+
+@app.get("/device-matrix", response_class=HTMLResponse, tags=["웹 UI"])
+async def device_matrix_page(request: Request):
+    """
+    장치 매트릭스 관리 페이지
+    """
+    return templates.TemplateResponse("device_matrix.html", {"request": request})
 
 # TOTP 코드 발급 엔드포인트 추가 (개발 및 관리용)
 @app.get("/admin/generate-totp", tags=["관리"])

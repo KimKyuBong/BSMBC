@@ -60,7 +60,7 @@ class ScheduleItem(BaseModel):
         return v
     
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "time": "08:30",
                 "days": "Monday,Wednesday,Friday",
@@ -102,7 +102,7 @@ class ScheduleCreate(BaseModel):
             raise ValueError("요일은 문자열 또는 문자열 목록이어야 합니다")
     
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "time": "08:30",
                 "days": ["Monday", "Wednesday", "Friday"],
@@ -125,7 +125,7 @@ class ScheduleResponse(BaseModel):
     active: bool = Field(True, description="활성화 여부")
     
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "id": 1,
                 "time": "08:30",
@@ -174,7 +174,7 @@ class ScheduleUpdate(BaseModel):
             raise ValueError("요일은 문자열 또는 문자열 목록이어야 합니다")
     
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "time": "09:00",
                 "days": ["Monday", "Tuesday"],

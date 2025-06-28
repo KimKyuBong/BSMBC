@@ -4,6 +4,9 @@
 장치 좌표와 이름 간의 매핑을 관리합니다.
 """
 import logging
+import json
+import os
+from pathlib import Path
 
 # 로깅 설정
 logger = logging.getLogger(__name__)
@@ -35,6 +38,16 @@ class DeviceMapper:
             (4, 8): "별박1-2", (4, 9): "별박1-3", (4, 10): "별박2-1", (4, 11): "별박2-2",
             (4, 12): "운동장", (4, 13): "옥외"
         }
+        
+        # 4행 16열 장치 매트릭스 초기화
+        self.device_matrix = self._initialize_device_matrix()
+        
+        # 매트릭스 설정 파일 경로
+        self.matrix_config_path = Path("bsbc/data/config/device_matrix.json")
+        self.matrix_config_path.parent.mkdir(parents=True, exist_ok=True)
+        
+        # 저장된 매트릭스 설정 로드
+        self._load_matrix_config()
         
         # 역방향 매핑 생성 (장치명 -> 좌표)
         self.device_to_coord = {v: k for k, v in self.device_map.items()}
@@ -78,6 +91,109 @@ class DeviceMapper:
             # 모든 장치
             "전체장치": list(self.device_map.values())
         }
+    
+    def _initialize_device_matrix(self):
+        """4행 16열 장치 매트릭스 초기화"""
+        matrix = []
+        for row in range(4):
+            row_devices = []
+            for col in range(16):
+                # 기본값: 장치{row*16 + col + 1} 형태
+                device_name = f"장치{row * 16 + col + 1}"
+                row_devices.append(device_name)
+            matrix.append(row_devices)
+        return matrix
+    
+    def _load_matrix_config(self):
+        """저장된 매트릭스 설정 로드"""
+        try:
+            if self.matrix_config_path.exists():
+                with open(self.matrix_config_path, 'r', encoding='utf-8') as f:
+                    saved_matrix = json.load(f)
+                    if self._validate_matrix(saved_matrix):
+                        self.device_matrix = saved_matrix
+                        logger.info("장치 매트릭스 설정을 로드했습니다.")
+                    else:
+                        logger.warning("저장된 매트릭스 설정이 유효하지 않습니다. 기본값을 사용합니다.")
+            else:
+                logger.info("장치 매트릭스 설정 파일이 없습니다. 기본값을 사용합니다.")
+        except Exception as e:
+            logger.error(f"매트릭스 설정 로드 중 오류: {e}")
+    
+    def _save_matrix_config(self):
+        """매트릭스 설정 저장"""
+        try:
+            with open(self.matrix_config_path, 'w', encoding='utf-8') as f:
+                json.dump(self.device_matrix, f, ensure_ascii=False, indent=2)
+            logger.info("장치 매트릭스 설정을 저장했습니다.")
+            return True
+        except Exception as e:
+            logger.error(f"매트릭스 설정 저장 중 오류: {e}")
+            return False
+    
+    def _validate_matrix(self, matrix):
+        """매트릭스 유효성 검사"""
+        if not isinstance(matrix, list) or len(matrix) != 4:
+            return False
+        
+        for row in matrix:
+            if not isinstance(row, list) or len(row) != 16:
+                return False
+            for device_name in row:
+                if not isinstance(device_name, str):
+                    return False
+        
+        return True
+    
+    def get_device_matrix(self):
+        """현재 장치 매트릭스 반환"""
+        return self.device_matrix
+    
+    def update_device_matrix(self, matrix):
+        """장치 매트릭스 전체 업데이트"""
+        if not self._validate_matrix(matrix):
+            return False, "매트릭스 형식이 유효하지 않습니다."
+        
+        self.device_matrix = matrix
+        success = self._save_matrix_config()
+        
+        if success:
+            return True, "장치 매트릭스가 성공적으로 업데이트되었습니다."
+        else:
+            return False, "매트릭스 설정 저장에 실패했습니다."
+    
+    def update_device_at_position(self, row, col, device_name):
+        """특정 위치의 장치 이름 업데이트"""
+        if not (0 <= row <= 3 and 0 <= col <= 15):
+            return False, "행/열 범위가 유효하지 않습니다."
+        
+        if not isinstance(device_name, str) or not device_name.strip():
+            return False, "장치 이름이 유효하지 않습니다."
+        
+        self.device_matrix[row][col] = device_name.strip()
+        success = self._save_matrix_config()
+        
+        if success:
+            return True, f"위치 ({row}, {col})의 장치가 '{device_name}'으로 업데이트되었습니다."
+        else:
+            return False, "매트릭스 설정 저장에 실패했습니다."
+    
+    def get_device_at_position(self, row, col):
+        """특정 위치의 장치 이름 반환"""
+        if not (0 <= row <= 3 and 0 <= col <= 15):
+            return None
+        
+        return self.device_matrix[row][col]
+    
+    def reset_matrix_to_default(self):
+        """매트릭스를 기본값으로 초기화"""
+        self.device_matrix = self._initialize_device_matrix()
+        success = self._save_matrix_config()
+        
+        if success:
+            return True, "장치 매트릭스가 기본값으로 초기화되었습니다."
+        else:
+            return False, "매트릭스 설정 저장에 실패했습니다."
     
     def get_device_name(self, row, col):
         """좌표로 장치명 찾기"""
@@ -457,8 +573,8 @@ class DeviceMapper:
             "별관1-3": 1056,
             "별관2-1": 1057,
             "별관2-2": 1058,
-            "운동장": 1059,
-            "옥외": 1060,
+            "운동장": 1061,
+            "옥외": 1062,
             
             # 기존 특수 공간 ID도 유지 (이전 코드와의 호환성)
             "교무실": 1001,
