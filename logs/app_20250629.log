@@ -1,0 +1,121 @@
+2025-06-29 00:31:30 - app.services.broadcast_manager - INFO - 장치 매트릭스 초기화 완료 (4행 16열)
+2025-06-29 00:31:30 - app.services.broadcast_manager - INFO - 통합 방송 관리자 초기화 완료 - 대상: 192.168.0.200:22000
+2025-06-29 00:31:30 - app.core.device_mapping - INFO - 장치 매트릭스 설정을 로드했습니다.
+2025-06-29 00:31:30 - app.core.device_mapping - INFO - 장치 매트릭스 설정을 로드했습니다.
+2025-06-29 00:31:33 - app.services.broadcast_manager - INFO - 장치 매트릭스 초기화 완료 (4행 16열)
+2025-06-29 00:31:33 - app.services.broadcast_manager - INFO - 통합 방송 관리자 초기화 완료 - 대상: 192.168.0.200:22000
+2025-06-29 00:31:33 - app.core.device_mapping - INFO - 장치 매트릭스 설정을 로드했습니다.
+2025-06-29 00:31:33 - app.core.device_mapping - INFO - 장치 매트릭스 설정을 로드했습니다.
+2025-06-29 00:32:05 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 시작: C:\Users\bssmBroadcast\BSMBC\data\audio\preview_audio_20250629_003205.mp3
+2025-06-29 00:32:06 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 완료: 569.9초
+2025-06-29 00:32:06 - app.api.routes.broadcast - WARNING - 오디오 파일이 너무 김: 569.9초 > 300초
+2025-06-29 00:32:06 - app.api.routes.broadcast - INFO - 임시 파일 삭제: C:\Users\bssmBroadcast\BSMBC\data\audio\preview_audio_20250629_003205.mp3
+2025-06-29 00:33:35 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 시작: C:\Users\bssmBroadcast\BSMBC\data\audio\preview_audio_20250629_003335.wav
+2025-06-29 00:33:35 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 완료: 0.0초
+2025-06-29 00:33:37 - app.services.broadcast_controller - WARNING - 오디오 파일 길이 확인 실패: file does not start with RIFF id
+2025-06-29 00:34:33 - app.services.broadcast_manager - INFO - 방 번호 기반 제어 + 패킷 전송: {203}
+2025-06-29 00:34:33 - app.services.broadcast_manager - INFO - 패킷 전송 성공: [203] (총 1개 방)
+2025-06-29 00:34:33 - app.services.broadcast_manager - INFO - 서버 응답: 022c005342000000000000000000040000000000000000000000000000000000000000000000000000003b03
+2025-06-29 00:34:45 - app.services.broadcast_manager - INFO - 장치 끄기 + 패킷 전송: (2, 3)
+2025-06-29 00:34:45 - app.services.broadcast_manager - INFO - 패킷 전송 성공: [] (총 0개 방)
+2025-06-29 00:34:45 - app.services.broadcast_manager - INFO - 서버 응답: 022c005342000000000000000000000000000000000000000000000000000000000000000000000000003f03
+2025-06-29 00:35:46 - app.services.broadcast_manager - INFO - 방 번호 기반 제어 + 패킷 전송: {112}
+2025-06-29 00:35:46 - app.services.broadcast_manager - INFO - 패킷 전송 성공: [112] (총 1개 방)
+2025-06-29 00:35:46 - app.services.broadcast_manager - INFO - 서버 응답: 020e00537419061d0100232f2403
+2025-06-29 00:35:55 - app.services.broadcast_manager - INFO - 장치 끄기 + 패킷 전송: (1, 12)
+2025-06-29 00:35:55 - app.services.broadcast_manager - INFO - 패킷 전송 성공: [] (총 0개 방)
+2025-06-29 00:35:55 - app.services.broadcast_manager - INFO - 서버 응답: 022c005342000000000000000000000000000000000000000000000000000000000000000000000000003f03
+2025-06-29 00:38:14 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 시작: C:\Users\bssmBroadcast\BSMBC\data\audio\preview_audio_20250629_003814.wav
+2025-06-29 00:38:14 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 완료: 0.0초
+2025-06-29 00:38:16 - app.services.broadcast_controller - WARNING - 오디오 파일 길이 확인 실패: file does not start with RIFF id
+2025-06-29 00:39:10 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 시작: C:\Users\bssmBroadcast\BSMBC\data\audio\preview_audio_20250629_003910.wav
+2025-06-29 00:39:10 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 완료: 0.0초
+2025-06-29 00:39:12 - app.services.broadcast_controller - WARNING - 오디오 파일 길이 확인 실패: file does not start with RIFF id
+2025-06-29 00:39:34 - app.services.broadcast_manager - INFO - 방 번호 기반 제어 + 패킷 전송: {305}
+2025-06-29 00:39:34 - app.services.broadcast_manager - INFO - 패킷 전송 성공: [305] (총 1개 방)
+2025-06-29 00:39:34 - app.services.broadcast_manager - INFO - 서버 응답: 022c005342000000000000000000000000001000000000000000000000000000000000000000000000002f03
+2025-06-29 00:39:51 - app.services.broadcast_manager - INFO - 장치 끄기 + 패킷 전송: (3, 5)
+2025-06-29 00:39:51 - app.services.broadcast_manager - INFO - 패킷 전송 성공: [] (총 0개 방)
+2025-06-29 00:39:51 - app.services.broadcast_manager - INFO - 서버 응답: 022c005342000000000000000000000000000000000000000000000000000000000000000000000000003f03
+2025-06-29 00:46:04 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 시작: C:\Users\bssmBroadcast\BSMBC\data\audio\preview_audio_20250629_004604.wav
+2025-06-29 00:46:04 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 완료: 0.0초
+2025-06-29 00:46:06 - app.services.broadcast_controller - WARNING - 오디오 파일 길이 확인 실패: file does not start with RIFF id
+2025-06-29 00:51:50 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 시작: C:\Users\bssmBroadcast\BSMBC\data\audio\preview_audio_20250629_005150.wav
+2025-06-29 00:51:50 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 완료: 0.0초
+2025-06-29 00:51:51 - app.services.broadcast_controller - WARNING - 오디오 파일 길이 확인 실패: file does not start with RIFF id
+2025-06-29 01:04:37 - app.services.broadcast_manager - INFO - 장치 매트릭스 초기화 완료 (4행 16열)
+2025-06-29 01:04:37 - app.services.broadcast_manager - INFO - 통합 방송 관리자 초기화 완료 - 대상: 192.168.0.200:22000
+2025-06-29 01:04:37 - app.core.device_mapping - INFO - 장치 매트릭스 설정을 로드했습니다.
+2025-06-29 01:04:37 - app.core.device_mapping - INFO - 장치 매트릭스 설정을 로드했습니다.
+2025-06-29 01:06:30 - app.services.broadcast_manager - INFO - 장치 매트릭스 초기화 완료 (4행 16열)
+2025-06-29 01:06:30 - app.services.broadcast_manager - INFO - 통합 방송 관리자 초기화 완료 - 대상: 192.168.0.200:22000
+2025-06-29 01:06:30 - app.core.device_mapping - INFO - 장치 매트릭스 설정을 로드했습니다.
+2025-06-29 01:06:30 - app.core.device_mapping - INFO - 장치 매트릭스 설정을 로드했습니다.
+2025-06-29 01:06:40 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 시작: C:\Users\bssmBroadcast\BSMBC\data\audio\preview_audio_20250629_010640.wav
+2025-06-29 01:06:41 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 완료: 1.0초
+2025-06-29 01:06:45 - app.utils.audio_normalizer - INFO - 임시 파일 정리 완료: 0개 파일 삭제
+2025-06-29 01:07:59 - app.api.routes.broadcast - ERROR - 프리뷰 오디오 제공 오류: 404: 프리뷰를 찾을 수 없습니다.
+2025-06-29 01:08:06 - app.api.routes.broadcast - ERROR - 프리뷰 오디오 제공 오류: 404: 프리뷰를 찾을 수 없습니다.
+2025-06-29 01:08:14 - app.api.routes.broadcast - ERROR - 프리뷰 오디오 제공 오류: 404: 프리뷰를 찾을 수 없습니다.
+2025-06-29 01:09:23 - app.api.routes.broadcast - ERROR - 프리뷰 오디오 제공 오류: 404: 프리뷰를 찾을 수 없습니다.
+2025-06-29 01:13:29 - app.services.broadcast_manager - INFO - 장치 매트릭스 초기화 완료 (4행 16열)
+2025-06-29 01:13:29 - app.services.broadcast_manager - INFO - 통합 방송 관리자 초기화 완료 - 대상: 192.168.0.200:22000
+2025-06-29 01:13:29 - app.core.device_mapping - INFO - 장치 매트릭스 설정을 로드했습니다.
+2025-06-29 01:13:29 - app.core.device_mapping - INFO - 장치 매트릭스 설정을 로드했습니다.
+2025-06-29 01:13:33 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 시작: C:\Users\bssmBroadcast\BSMBC\data\audio\preview_audio_20250629_011333.wav
+2025-06-29 01:13:33 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 완료: 1.0초
+2025-06-29 01:18:29 - app.services.broadcast_manager - INFO - 장치 매트릭스 초기화 완료 (4행 16열)
+2025-06-29 01:18:29 - app.services.broadcast_manager - INFO - 통합 방송 관리자 초기화 완료 - 대상: 192.168.0.200:22000
+2025-06-29 01:18:29 - app.core.device_mapping - INFO - 장치 매트릭스 설정을 로드했습니다.
+2025-06-29 01:18:29 - app.core.device_mapping - INFO - 장치 매트릭스 설정을 로드했습니다.
+2025-06-29 01:23:29 - app.services.broadcast_manager - INFO - 장치 매트릭스 초기화 완료 (4행 16열)
+2025-06-29 01:23:29 - app.services.broadcast_manager - INFO - 통합 방송 관리자 초기화 완료 - 대상: 192.168.0.200:22000
+2025-06-29 01:23:29 - app.core.device_mapping - INFO - 장치 매트릭스 설정을 로드했습니다.
+2025-06-29 01:23:29 - app.core.device_mapping - INFO - 장치 매트릭스 설정을 로드했습니다.
+2025-06-29 01:29:47 - app.api.routes.broadcast - ERROR - 프리뷰 오디오 제공 오류: 404: 프리뷰를 찾을 수 없습니다.
+2025-06-29 01:31:36 - app.utils.audio_normalizer - INFO - 고품질 오디오 정규화 시작: C:\Users\bssmBroadcast\BSMBC\data\temp\audio_20250629_013135_tts.wav
+2025-06-29 01:31:36 - app.utils.audio_normalizer - INFO - 목표 볼륨: -10.0 dBFS, 헤드룸: 1.0 dB
+2025-06-29 01:31:37 - app.utils.audio_normalizer - INFO - 고품질 정규화 완료: C:\Users\bssmBroadcast\BSMBC\data\temp\normalized_20250629_013136_norm.mp3
+2025-06-29 01:31:37 - app.utils.audio_normalizer - INFO - 정규화 전 - 평균: -19.9 dB, 최대: -5.6 dB
+2025-06-29 01:31:37 - app.utils.audio_normalizer - INFO - 정규화 후 - 평균: -18.8 dB, 최대: -4.5 dB
+2025-06-29 01:33:18 - app.services.broadcast_manager - INFO - 방 번호 기반 제어 + 패킷 전송: {101, 102}
+2025-06-29 01:33:18 - app.services.broadcast_manager - INFO - 패킷 전송 성공: [101, 102] (총 2개 방)
+2025-06-29 01:33:18 - app.services.broadcast_manager - INFO - 서버 응답: 022c005342000000000003000000000000000000000000000000000000000000000000000000000000003c03
+2025-06-29 01:33:31 - app.services.broadcast_manager - INFO - 장치 끄기 + 패킷 전송: (1, 1)
+2025-06-29 01:33:31 - app.services.broadcast_manager - INFO - 패킷 전송 성공: [102] (총 1개 방)
+2025-06-29 01:33:31 - app.services.broadcast_manager - INFO - 서버 응답: 022c005342000000000002000000000000000000000000000000000000000000000000000000000000003d03
+2025-06-29 01:33:31 - app.services.broadcast_manager - INFO - 장치 끄기 + 패킷 전송: (1, 2)
+2025-06-29 01:33:31 - app.services.broadcast_manager - INFO - 패킷 전송 성공: [] (총 0개 방)
+2025-06-29 01:33:31 - app.services.broadcast_manager - INFO - 서버 응답: 022c005342000000000000000000000000000000000000000000000000000000000000000000000000003f03
+2025-06-29 01:33:36 - app.utils.audio_normalizer - INFO - 고품질 오디오 정규화 시작: C:\Users\bssmBroadcast\BSMBC\data\temp\audio_20250629_013335_tts.wav
+2025-06-29 01:33:36 - app.utils.audio_normalizer - INFO - 목표 볼륨: -10.0 dBFS, 헤드룸: 1.0 dB
+2025-06-29 01:33:37 - app.utils.audio_normalizer - INFO - 고품질 정규화 완료: C:\Users\bssmBroadcast\BSMBC\data\temp\normalized_20250629_013336_norm.mp3
+2025-06-29 01:33:37 - app.utils.audio_normalizer - INFO - 정규화 전 - 평균: -18.9 dB, 최대: -4.7 dB
+2025-06-29 01:33:37 - app.utils.audio_normalizer - INFO - 정규화 후 - 평균: -18.8 dB, 최대: -4.6 dB
+2025-06-29 01:34:08 - app.services.broadcast_manager - INFO - 방 번호 기반 제어 + 패킷 전송: {201, 202}
+2025-06-29 01:34:08 - app.services.broadcast_manager - INFO - 패킷 전송 성공: [201, 202] (총 2개 방)
+2025-06-29 01:34:08 - app.services.broadcast_manager - INFO - 서버 응답: 022c005342000000000000000000030000000000000000000000000000000000000000000000000000003c03
+2025-06-29 01:34:17 - app.services.broadcast_manager - INFO - 장치 끄기 + 패킷 전송: (2, 1)
+2025-06-29 01:34:17 - app.services.broadcast_manager - INFO - 패킷 전송 성공: [202] (총 1개 방)
+2025-06-29 01:34:17 - app.services.broadcast_manager - INFO - 서버 응답: 022c005342000000000000000000020000000000000000000000000000000000000000000000000000003d03
+2025-06-29 01:34:17 - app.services.broadcast_manager - INFO - 장치 끄기 + 패킷 전송: (2, 2)
+2025-06-29 01:34:17 - app.services.broadcast_manager - INFO - 패킷 전송 성공: [] (총 0개 방)
+2025-06-29 01:34:17 - app.services.broadcast_manager - INFO - 서버 응답: 022c005342000000000000000000000000000000000000000000000000000000000000000000000000003f03
+2025-06-29 01:38:25 - app.api.routes.broadcast - ERROR - 프리뷰 오디오 제공 오류: 404: 프리뷰를 찾을 수 없습니다.
+2025-06-29 01:43:11 - app.services.broadcast_manager - INFO - 장치 매트릭스 초기화 완료 (4행 16열)
+2025-06-29 01:43:11 - app.services.broadcast_manager - INFO - 통합 방송 관리자 초기화 완료 - 대상: 192.168.0.200:22000
+2025-06-29 01:43:11 - app.core.device_mapping - INFO - 장치 매트릭스 설정을 로드했습니다.
+2025-06-29 01:43:11 - app.core.device_mapping - INFO - 장치 매트릭스 설정을 로드했습니다.
+2025-06-29 01:43:40 - app.api.routes.broadcast - ERROR - 프리뷰 오디오 제공 오류: 404: 프리뷰를 찾을 수 없습니다.
+2025-06-29 01:43:44 - app.services.broadcast_manager - INFO - 장치 매트릭스 초기화 완료 (4행 16열)
+2025-06-29 01:43:44 - app.services.broadcast_manager - INFO - 통합 방송 관리자 초기화 완료 - 대상: 192.168.0.200:22000
+2025-06-29 01:43:44 - app.core.device_mapping - INFO - 장치 매트릭스 설정을 로드했습니다.
+2025-06-29 01:43:44 - app.core.device_mapping - INFO - 장치 매트릭스 설정을 로드했습니다.
+2025-06-29 01:44:45 - app.services.broadcast_manager - INFO - 장치 매트릭스 초기화 완료 (4행 16열)
+2025-06-29 01:44:45 - app.services.broadcast_manager - INFO - 통합 방송 관리자 초기화 완료 - 대상: 192.168.0.200:22000
+2025-06-29 01:44:45 - app.core.device_mapping - INFO - 장치 매트릭스 설정을 로드했습니다.
+2025-06-29 01:44:45 - app.core.device_mapping - INFO - 장치 매트릭스 설정을 로드했습니다.
+2025-06-29 01:44:48 - app.services.broadcast_manager - INFO - 장치 매트릭스 초기화 완료 (4행 16열)
+2025-06-29 01:44:48 - app.services.broadcast_manager - INFO - 통합 방송 관리자 초기화 완료 - 대상: 192.168.0.200:22000
+2025-06-29 01:44:48 - app.core.device_mapping - INFO - 장치 매트릭스 설정을 로드했습니다.
+2025-06-29 01:44:48 - app.core.device_mapping - INFO - 장치 매트릭스 설정을 로드했습니다.
