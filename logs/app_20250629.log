@@ -119,3 +119,7 @@
 2025-06-29 01:44:48 - app.services.broadcast_manager - INFO - 통합 방송 관리자 초기화 완료 - 대상: 192.168.0.200:22000
 2025-06-29 01:44:48 - app.core.device_mapping - INFO - 장치 매트릭스 설정을 로드했습니다.
 2025-06-29 01:44:48 - app.core.device_mapping - INFO - 장치 매트릭스 설정을 로드했습니다.
+2025-06-29 01:49:44 - app.services.broadcast_manager - INFO - 장치 매트릭스 초기화 완료 (4행 16열)
+2025-06-29 01:49:44 - app.services.broadcast_manager - INFO - 통합 방송 관리자 초기화 완료 - 대상: 192.168.0.200:22000
+2025-06-29 01:49:44 - app.core.device_mapping - INFO - 장치 매트릭스 설정을 로드했습니다.
+2025-06-29 01:49:44 - app.core.device_mapping - INFO - 장치 매트릭스 설정을 로드했습니다.
