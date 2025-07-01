@@ -1813,12 +1813,10 @@ class BroadcastController:
     def restore_device_states(self, target_devices):
         """
         저장된 상태로 장치들을 복원
-        
         Parameters:
         -----------
         target_devices : list
             상태를 복원할 장치 목록
-            
         Returns:
         --------
         bool
@@ -1828,74 +1826,57 @@ class BroadcastController:
             if not self.restore_device_states_enabled:
                 print("[*] 장치 상태 복원이 비활성화되어 있습니다.")
                 return True
-                
             if not target_devices:
                 print("[*] 복원할 장치가 없습니다.")
                 return True
-                
             if not self.device_state_backup:
                 print("[*] 저장된 장치 상태가 없습니다.")
                 return True
-                
             print(f"[*] 장치 상태 복원 시작: {target_devices}")
-            
             # 현재 활성화된 방 목록 가져오기
             active_rooms = self.broadcast_manager.get_active_rooms()
             print(f"[*] 방송 후 현재 활성화된 방: {sorted(active_rooms)}")
-            
-            # 각 장치의 상태 복원
+            # 켜야 할 장치와 꺼야 할 장치 분리
+            devices_to_turn_on = []
+            devices_to_turn_off = []
             for device in target_devices:
                 if device in self.device_state_backup:
                     original_state = self.device_state_backup[device]
                     room_number = self._device_name_to_room_number(device)
-                    
                     if room_number:
-                        # 학년-반 형식 장치 (예: "1-1", "3-2")
                         current_state = room_number in active_rooms
-                        
-                        # 상태가 다르면 복원
                         if current_state != original_state:
-                            target_state = 1 if original_state else 0
-                            print(f"[*] 장치 {device} (방 {room_number}) 상태 복원 시도: {'켜짐' if original_state else '꺼짐'} (현재: {'켜짐' if current_state else '꺼짐'})")
-                            success = self.control_device_single(device, target_state)
-                            if success:
-                                print(f"[*] 장치 {device} (방 {room_number}) 상태 복원 완료: {'켜짐' if original_state else '꺼짐'}")
+                            if original_state:
+                                devices_to_turn_on.append(device)
                             else:
-                                print(f"[!] 장치 {device} (방 {room_number}) 상태 복원 실패")
-                        else:
-                            print(f"[*] 장치 {device} (방 {room_number}) 상태 유지: {'켜짐' if original_state else '꺼짐'}")
+                                devices_to_turn_off.append(device)
                     else:
-                        # 일반 장치의 경우
                         device_coords = self._find_device_in_matrix(device)
                         if device_coords:
                             row, col = device_coords
                             current_state = self._is_device_active_at_position(row, col, active_rooms)
-                            
-                            # 상태가 다르면 복원
                             if current_state != original_state:
-                                target_state = 1 if original_state else 0
-                                print(f"[*] 일반 장치 {device} (위치: {row},{col}) 상태 복원 시도: {'켜짐' if original_state else '꺼짐'} (현재: {'켜짐' if current_state else '꺼짐'})")
-                                success = self.control_device_single(device, target_state)
-                                if success:
-                                    print(f"[*] 일반 장치 {device} (위치: {row},{col}) 상태 복원 완료: {'켜짐' if original_state else '꺼짐'}")
+                                if original_state:
+                                    devices_to_turn_on.append(device)
                                 else:
-                                    print(f"[!] 일반 장치 {device} (위치: {row},{col}) 상태 복원 실패")
-                            else:
-                                print(f"[*] 일반 장치 {device} (위치: {row},{col}) 상태 유지: {'켜짐' if original_state else '꺼짐'}")
-            
+                                    devices_to_turn_off.append(device)
+            # 한 번에 상태 반영
+            if devices_to_turn_on:
+                print(f"[*] 켜야 할 장치: {devices_to_turn_on}")
+                self.control_multiple_devices(devices_to_turn_on, 1)
+            if devices_to_turn_off:
+                print(f"[*] 꺼야 할 장치: {devices_to_turn_off}")
+                self.control_multiple_devices(devices_to_turn_off, 0)
             # 복원 완료 후 상태 확인
             time.sleep(0.5)
             final_active_rooms = self.broadcast_manager.get_active_rooms()
             print(f"[*] 상태 복원 후 활성화된 방: {sorted(final_active_rooms)}")
-            
             # 백업 데이터 정리
             for device in target_devices:
                 if device in self.device_state_backup:
                     del self.device_state_backup[device]
-            
             print(f"[*] 장치 상태 복원 완료")
             return True
-            
         except Exception as e:
             print(f"[!] 장치 상태 복원 중 오류: {e}")
             return False
