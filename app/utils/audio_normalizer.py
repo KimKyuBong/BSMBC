@@ -21,17 +21,21 @@ class AudioNormalizer:
     오디오 파일의 볼륨을 분석하고 정규화합니다.
     """
     
-    def __init__(self, target_dbfs: float = -10.0, headroom: float = 1.0):
+    def __init__(self, target_dbfs: float = None, headroom: float = 1.0):
         """
         AudioNormalizer 초기화
         
         Parameters:
         -----------
-        target_dbfs : float
-            목표 볼륨 레벨 (dBFS, 기본값: -10.0)
+        target_dbfs : float, optional
+            목표 볼륨 레벨 (dBFS, 기본값: config에서 가져옴)
         headroom : float
             헤드룸 (dB, 기본값: 1.0)
         """
+        # config에서 기본값 가져오기
+        if target_dbfs is None:
+            target_dbfs = config.default_target_dbfs
+        
         self.target_dbfs = target_dbfs
         self.headroom = headroom
         

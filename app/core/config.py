@@ -23,7 +23,7 @@ FFMPEG_PATH = FFMPEG_DIR / "ffmpeg.exe"
 FFPROBE_PATH = FFMPEG_DIR / "ffprobe.exe"
 
 # 오디오 정규화 기본 설정
-DEFAULT_TARGET_DBFS = -10.0
+DEFAULT_TARGET_DBFS = -12.0
 
 # 데이터 디렉토리 설정
 # 애플리케이션 데이터를 저장할 디렉토리 경로 설정
@@ -142,6 +142,9 @@ class Config:
         
         # 로그 디렉토리
         self.log_dir = LOG_DIR
+        
+        # 오디오 정규화 설정
+        self.default_target_dbfs = DEFAULT_TARGET_DBFS
         
     def get_app_info(self):
         """

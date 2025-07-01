@@ -123,3 +123,338 @@
 2025-06-29 01:49:44 - app.services.broadcast_manager - INFO - 통합 방송 관리자 초기화 완료 - 대상: 192.168.0.200:22000
 2025-06-29 01:49:44 - app.core.device_mapping - INFO - 장치 매트릭스 설정을 로드했습니다.
 2025-06-29 01:49:44 - app.core.device_mapping - INFO - 장치 매트릭스 설정을 로드했습니다.
+2025-06-29 02:13:30 - app.services.broadcast_manager - INFO - 장치 매트릭스 초기화 완료 (4행 16열)
+2025-06-29 02:13:30 - app.services.broadcast_manager - INFO - 통합 방송 관리자 초기화 완료 - 대상: 192.168.0.200:22000
+2025-06-29 02:13:30 - app.core.device_mapping - INFO - 장치 매트릭스 설정을 로드했습니다.
+2025-06-29 02:13:30 - app.core.device_mapping - INFO - 장치 매트릭스 설정을 로드했습니다.
+2025-06-29 02:13:32 - app.services.broadcast_manager - INFO - 장치 매트릭스 초기화 완료 (4행 16열)
+2025-06-29 02:13:32 - app.services.broadcast_manager - INFO - 통합 방송 관리자 초기화 완료 - 대상: 192.168.0.200:22000
+2025-06-29 02:13:32 - app.core.device_mapping - INFO - 장치 매트릭스 설정을 로드했습니다.
+2025-06-29 02:13:32 - app.core.device_mapping - INFO - 장치 매트릭스 설정을 로드했습니다.
+2025-06-29 02:16:13 - app.utils.audio_normalizer - INFO - 고품질 오디오 정규화 시작: c:\Users\bssmBroadcast\BSMBC\data\temp\audio_20250629_021612_tts.wav
+2025-06-29 02:16:13 - app.utils.audio_normalizer - INFO - 목표 볼륨: -10.0 dBFS, 헤드룸: 1.0 dB
+2025-06-29 02:16:13 - app.utils.audio_normalizer - INFO - 고품질 정규화 완료: c:\Users\bssmBroadcast\BSMBC\data\temp\normalized_20250629_021613_norm.mp3
+2025-06-29 02:16:13 - app.utils.audio_normalizer - INFO - 정규화 전 - 평균: -17.1 dB, 최대: -5.3 dB
+2025-06-29 02:16:13 - app.utils.audio_normalizer - INFO - 정규화 후 - 평균: -16.4 dB, 최대: -4.6 dB
+2025-06-29 02:16:22 - app.services.broadcast_manager - INFO - 방 번호 기반 제어 + 패킷 전송: {103}
+2025-06-29 02:16:22 - app.services.broadcast_manager - INFO - 패킷 전송 성공: [103] (총 1개 방)
+2025-06-29 02:16:22 - app.services.broadcast_manager - INFO - 서버 응답: 022c005342000000000004000000000000000000000000000000000000000000000000000000000000003b03
+2025-06-29 02:16:30 - app.services.broadcast_manager - INFO - 장치 끄기 + 패킷 전송: (1, 3)
+2025-06-29 02:16:30 - app.services.broadcast_manager - INFO - 패킷 전송 성공: [] (총 0개 방)
+2025-06-29 02:16:30 - app.services.broadcast_manager - INFO - 서버 응답: 022c005342000000000000000000000000000000000000000000000000000000000000000000000000003f03
+2025-06-29 02:20:03 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 시작: c:\Users\bssmBroadcast\BSMBC\data\audio\preview_audio_20250629_022003.mp3
+2025-06-29 02:20:03 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 완료: 7.2초
+2025-06-29 02:20:31 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 시작: c:\Users\bssmBroadcast\BSMBC\data\audio\preview_audio_20250629_022031.mp3
+2025-06-29 02:20:32 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 완료: 7.2초
+2025-06-29 02:23:29 - app.services.broadcast_manager - INFO - 장치 매트릭스 초기화 완료 (4행 16열)
+2025-06-29 02:23:29 - app.services.broadcast_manager - INFO - 통합 방송 관리자 초기화 완료 - 대상: 192.168.0.200:22000
+2025-06-29 02:23:29 - app.core.device_mapping - INFO - 장치 매트릭스 설정을 로드했습니다.
+2025-06-29 02:23:29 - app.core.device_mapping - INFO - 장치 매트릭스 설정을 로드했습니다.
+2025-06-29 02:27:02 - app.services.broadcast_manager - INFO - 장치 매트릭스 초기화 완료 (4행 16열)
+2025-06-29 02:27:02 - app.services.broadcast_manager - INFO - 통합 방송 관리자 초기화 완료 - 대상: 192.168.0.200:22000
+2025-06-29 02:27:02 - app.core.device_mapping - INFO - 장치 매트릭스 설정을 로드했습니다.
+2025-06-29 02:27:02 - app.core.device_mapping - INFO - 장치 매트릭스 설정을 로드했습니다.
+2025-06-29 02:31:33 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 시작: c:\Users\bssmBroadcast\BSMBC\data\audio\preview_audio_20250629_023133.mp3
+2025-06-29 02:31:33 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 완료: 7.2초
+2025-06-29 08:37:30 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 시작: c:\Users\bssmBroadcast\BSMBC\data\audio\preview_audio_20250629_083730.mp3
+2025-06-29 08:37:31 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 완료: 7.2초
+2025-06-29 08:58:57 - app.services.broadcast_manager - INFO - 장치 매트릭스 초기화 완료 (4행 16열)
+2025-06-29 08:58:57 - app.services.broadcast_manager - INFO - 통합 방송 관리자 초기화 완료 - 대상: 192.168.0.200:22000
+2025-06-29 08:58:57 - app.core.device_mapping - INFO - 장치 매트릭스 설정을 로드했습니다.
+2025-06-29 08:58:57 - app.core.device_mapping - INFO - 장치 매트릭스 설정을 로드했습니다.
+2025-06-29 08:59:03 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 시작: c:\Users\bssmBroadcast\BSMBC\data\audio\preview_audio_20250629_085903.mp3
+2025-06-29 08:59:03 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 완료: 7.2초
+2025-06-29 08:59:03 - app.api.routes.broadcast - ERROR - 오디오 프리뷰 생성 오류: name 'request' is not defined
+2025-06-29 09:00:17 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 시작: c:\Users\bssmBroadcast\BSMBC\data\audio\preview_audio_20250629_090017.mp3
+2025-06-29 09:00:17 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 완료: 7.2초
+2025-06-29 09:00:17 - app.api.routes.broadcast - ERROR - 오디오 프리뷰 생성 오류: name 'request' is not defined
+2025-06-29 09:00:20 - app.services.broadcast_manager - INFO - 장치 매트릭스 초기화 완료 (4행 16열)
+2025-06-29 09:00:20 - app.services.broadcast_manager - INFO - 통합 방송 관리자 초기화 완료 - 대상: 192.168.0.200:22000
+2025-06-29 09:00:20 - app.core.device_mapping - INFO - 장치 매트릭스 설정을 로드했습니다.
+2025-06-29 09:00:20 - app.core.device_mapping - INFO - 장치 매트릭스 설정을 로드했습니다.
+2025-06-29 09:00:22 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 시작: c:\Users\bssmBroadcast\BSMBC\data\audio\preview_audio_20250629_090022.mp3
+2025-06-29 09:00:22 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 완료: 7.2초
+2025-06-29 09:01:05 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 시작: c:\Users\bssmBroadcast\BSMBC\data\audio\preview_audio_20250629_090105.mp3
+2025-06-29 09:01:05 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 완료: 7.2초
+2025-06-29 09:06:14 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 시작: c:\Users\bssmBroadcast\BSMBC\data\audio\preview_audio_20250629_090614.mp3
+2025-06-29 09:06:14 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 완료: 7.2초
+2025-06-29 09:07:52 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 시작: c:\Users\bssmBroadcast\BSMBC\data\audio\preview_audio_20250629_090752.wav
+2025-06-29 09:07:53 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 완료: 0.0초
+2025-06-29 09:07:53 - app.utils.audio_normalizer - INFO - 고품질 오디오 정규화 시작: c:\Users\bssmBroadcast\BSMBC\data\audio\preview_audio_20250629_090752.wav
+2025-06-29 09:07:53 - app.utils.audio_normalizer - INFO - 목표 볼륨: -10.0 dBFS, 헤드룸: 1.0 dB
+2025-06-29 09:07:53 - app.utils.audio_normalizer - INFO - 고품질 정규화 완료: c:\Users\bssmBroadcast\BSMBC\data\temp\normalized_20250629_090753_norm.mp3
+2025-06-29 09:07:53 - app.utils.audio_normalizer - INFO - 정규화 전 - 평균: -91.0 dB, 최대: -91.0 dB
+2025-06-29 09:07:53 - app.utils.audio_normalizer - INFO - 정규화 후 - 평균: -0.0 dB, 최대: 0.0 dB
+2025-06-29 09:07:54 - app.services.broadcast_controller - WARNING - 오디오 파일 길이 확인 실패: file does not start with RIFF id
+2025-06-29 09:09:37 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 시작: c:\Users\bssmBroadcast\BSMBC\data\audio\preview_audio_20250629_090937.wav
+2025-06-29 09:09:38 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 완료: 0.0초
+2025-06-29 09:09:38 - app.utils.audio_normalizer - INFO - 고품질 오디오 정규화 시작: c:\Users\bssmBroadcast\BSMBC\data\audio\preview_audio_20250629_090937.wav
+2025-06-29 09:09:38 - app.utils.audio_normalizer - INFO - 목표 볼륨: -10.0 dBFS, 헤드룸: 1.0 dB
+2025-06-29 09:09:38 - app.utils.audio_normalizer - INFO - 고품질 정규화 완료: c:\Users\bssmBroadcast\BSMBC\data\temp\normalized_20250629_090938_norm.mp3
+2025-06-29 09:09:38 - app.utils.audio_normalizer - INFO - 정규화 전 - 평균: -91.0 dB, 최대: -91.0 dB
+2025-06-29 09:09:38 - app.utils.audio_normalizer - INFO - 정규화 후 - 평균: -0.0 dB, 최대: 0.0 dB
+2025-06-29 09:09:39 - app.services.broadcast_controller - WARNING - 오디오 파일 길이 확인 실패: file does not start with RIFF id
+2025-06-29 09:22:45 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 시작: c:\Users\bssmBroadcast\BSMBC\data\audio\preview_audio_20250629_092245.mp3
+2025-06-29 09:22:45 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 완료: 7.2초
+2025-06-29 09:23:36 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 시작: c:\Users\bssmBroadcast\BSMBC\data\audio\preview_audio_20250629_092336.mp3
+2025-06-29 09:23:36 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 완료: 7.2초
+2025-06-29 09:26:29 - app.services.broadcast_manager - INFO - 장치 매트릭스 초기화 완료 (4행 16열)
+2025-06-29 09:26:29 - app.services.broadcast_manager - INFO - 통합 방송 관리자 초기화 완료 - 대상: 192.168.0.200:22000
+2025-06-29 09:26:29 - app.core.device_mapping - INFO - 장치 매트릭스 설정을 로드했습니다.
+2025-06-29 09:26:29 - app.core.device_mapping - INFO - 장치 매트릭스 설정을 로드했습니다.
+2025-06-29 09:26:34 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 시작: c:\Users\bssmBroadcast\BSMBC\data\audio\preview_audio_20250629_092634.mp3
+2025-06-29 09:26:34 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 완료: 13.3초
+2025-06-29 09:27:05 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 시작: c:\Users\bssmBroadcast\BSMBC\data\audio\preview_audio_20250629_092705.mp3
+2025-06-29 09:27:05 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 완료: 7.2초
+2025-06-29 09:29:14 - app.services.broadcast_manager - INFO - 장치 매트릭스 초기화 완료 (4행 16열)
+2025-06-29 09:29:14 - app.services.broadcast_manager - INFO - 통합 방송 관리자 초기화 완료 - 대상: 192.168.0.200:22000
+2025-06-29 09:29:14 - app.core.device_mapping - INFO - 장치 매트릭스 설정을 로드했습니다.
+2025-06-29 09:29:14 - app.core.device_mapping - INFO - 장치 매트릭스 설정을 로드했습니다.
+2025-06-29 09:29:23 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 시작: c:\Users\bssmBroadcast\BSMBC\data\audio\preview_audio_20250629_092923.mp3
+2025-06-29 09:29:23 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 완료: 7.2초
+2025-06-29 09:29:25 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 시작: c:\Users\bssmBroadcast\BSMBC\data\audio\preview_audio_20250629_092925.mp3
+2025-06-29 09:29:25 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 완료: 7.2초
+2025-06-29 09:29:44 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 시작: c:\Users\bssmBroadcast\BSMBC\data\audio\preview_audio_20250629_092944.mp3
+2025-06-29 09:29:44 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 완료: 7.2초
+2025-06-29 09:34:27 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 시작: c:\Users\bssmBroadcast\BSMBC\data\audio\preview_audio_20250629_093427.mp3
+2025-06-29 09:34:27 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 완료: 13.3초
+2025-06-29 09:34:27 - app.api.routes.broadcast - INFO - [API] use_original 플래그: True, original_preview_id: None
+2025-06-29 09:34:27 - app.services.broadcast_controller - INFO - [프리뷰] use_original 플래그 타입: <class 'bool'>, 값: True
+2025-06-29 09:34:27 - app.services.broadcast_controller - INFO - [프리뷰] 원본 사용 플래그가 True입니다. 정규화 및 시작음/끝음 추가를 건너뜁니다.
+2025-06-29 09:34:53 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 시작: c:\Users\bssmBroadcast\BSMBC\data\audio\preview_audio_20250629_093453.mp3
+2025-06-29 09:34:53 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 완료: 7.2초
+2025-06-29 09:34:53 - app.api.routes.broadcast - INFO - [API] use_original 플래그: True, original_preview_id: None
+2025-06-29 09:34:53 - app.services.broadcast_controller - INFO - [프리뷰] use_original 플래그 타입: <class 'bool'>, 값: True
+2025-06-29 09:34:53 - app.services.broadcast_controller - INFO - [프리뷰] 원본 사용 플래그가 True입니다. 정규화 및 시작음/끝음 추가를 건너뜁니다.
+2025-06-29 09:35:17 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 시작: c:\Users\bssmBroadcast\BSMBC\data\audio\preview_audio_20250629_093517.mp3
+2025-06-29 09:35:17 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 완료: 569.9초
+2025-06-29 09:35:17 - app.api.routes.broadcast - WARNING - 오디오 파일이 너무 김: 569.9초 > 300초
+2025-06-29 09:35:17 - app.api.routes.broadcast - INFO - 임시 파일 삭제: c:\Users\bssmBroadcast\BSMBC\data\audio\preview_audio_20250629_093517.mp3
+2025-06-29 09:37:00 - app.services.broadcast_manager - INFO - 장치 매트릭스 초기화 완료 (4행 16열)
+2025-06-29 09:37:00 - app.services.broadcast_manager - INFO - 통합 방송 관리자 초기화 완료 - 대상: 192.168.0.200:22000
+2025-06-29 09:37:00 - app.core.device_mapping - INFO - 장치 매트릭스 설정을 로드했습니다.
+2025-06-29 09:37:00 - app.core.device_mapping - INFO - 장치 매트릭스 설정을 로드했습니다.
+2025-06-29 09:37:29 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 시작: c:\Users\bssmBroadcast\BSMBC\data\audio\preview_audio_20250629_093729.mp3
+2025-06-29 09:37:29 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 완료: 569.9초
+2025-06-29 09:37:29 - app.api.routes.broadcast - WARNING - 오디오 파일이 너무 김: 569.9초 > 300초
+2025-06-29 09:37:29 - app.api.routes.broadcast - INFO - 임시 파일 삭제: c:\Users\bssmBroadcast\BSMBC\data\audio\preview_audio_20250629_093729.mp3
+2025-06-29 09:37:44 - app.api.routes.broadcast - INFO - use_original 플래그가 True이므로 파일 길이 체크를 건너뜁니다.
+2025-06-29 09:37:44 - app.api.routes.broadcast - INFO - [API] use_original 플래그: True, original_preview_id: None
+2025-06-29 09:37:44 - app.services.broadcast_controller - INFO - [프리뷰] use_original 플래그 타입: <class 'bool'>, 값: True
+2025-06-29 09:37:44 - app.services.broadcast_controller - INFO - [프리뷰] 원본 사용 플래그가 True입니다. 정규화 및 시작음/끝음 추가를 건너뜁니다.
+2025-06-29 09:45:45 - app.services.broadcast_manager - INFO - 장치 매트릭스 초기화 완료 (4행 16열)
+2025-06-29 09:45:45 - app.services.broadcast_manager - INFO - 통합 방송 관리자 초기화 완료 - 대상: 192.168.0.200:22000
+2025-06-29 09:45:45 - app.core.device_mapping - INFO - 장치 매트릭스 설정을 로드했습니다.
+2025-06-29 09:45:45 - app.core.device_mapping - INFO - 장치 매트릭스 설정을 로드했습니다.
+2025-06-29 09:45:45 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 시작: c:\Users\bssmBroadcast\BSMBC\data\temp\preview_audio_20250629_094545.mp3
+2025-06-29 09:45:45 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 완료: 7.2초
+2025-06-29 09:45:45 - app.api.routes.broadcast - INFO - [API] use_original 플래그: False, original_preview_id: None
+2025-06-29 09:45:45 - app.services.broadcast_controller - INFO - [프리뷰] use_original 플래그 타입: <class 'bool'>, 값: False
+2025-06-29 09:45:45 - app.services.broadcast_controller - INFO - [프리뷰] use_original 플래그가 False입니다. 일반 처리로 진행합니다.
+2025-06-29 09:45:47 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 시작: c:\Users\bssmBroadcast\BSMBC\data\temp\preview_audio_20250629_094547.mp3
+2025-06-29 09:45:47 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 완료: 13.3초
+2025-06-29 09:45:47 - app.api.routes.broadcast - INFO - [API] use_original 플래그: False, original_preview_id: None
+2025-06-29 09:45:47 - app.services.broadcast_controller - INFO - [프리뷰] use_original 플래그 타입: <class 'bool'>, 값: False
+2025-06-29 09:45:47 - app.services.broadcast_controller - INFO - [프리뷰] use_original 플래그가 False입니다. 일반 처리로 진행합니다.
+2025-06-29 09:55:44 - app.services.broadcast_manager - INFO - 장치 매트릭스 초기화 완료 (4행 16열)
+2025-06-29 09:55:44 - app.services.broadcast_manager - INFO - 통합 방송 관리자 초기화 완료 - 대상: 192.168.0.200:22000
+2025-06-29 09:55:44 - app.core.device_mapping - INFO - 장치 매트릭스 설정을 로드했습니다.
+2025-06-29 09:55:44 - app.core.device_mapping - INFO - 장치 매트릭스 설정을 로드했습니다.
+2025-06-29 13:01:21 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 시작: c:\Users\bssmBroadcast\BSMBC\data\temp\preview_audio_20250629_130121.wav
+2025-06-29 13:01:21 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 완료: 0.0초
+2025-06-29 13:01:21 - app.api.routes.broadcast - INFO - [API] use_original 플래그: False, original_preview_id: None
+2025-06-29 13:01:21 - app.services.broadcast_controller - INFO - [프리뷰] use_original 플래그 타입: <class 'bool'>, 값: False
+2025-06-29 13:01:21 - app.services.broadcast_controller - INFO - [프리뷰] use_original 플래그가 False입니다. 일반 처리로 진행합니다.
+2025-06-29 13:01:21 - app.utils.audio_normalizer - INFO - 고품질 오디오 정규화 시작: c:\Users\bssmBroadcast\BSMBC\data\temp\preview_audio_20250629_130121.wav
+2025-06-29 13:01:21 - app.utils.audio_normalizer - INFO - 목표 볼륨: -10.0 dBFS, 헤드룸: 1.0 dB
+2025-06-29 13:01:22 - app.utils.audio_normalizer - INFO - 고품질 정규화 완료: c:\Users\bssmBroadcast\BSMBC\data\temp\normalized_20250629_130121_norm.mp3
+2025-06-29 13:01:22 - app.utils.audio_normalizer - INFO - 정규화 전 - 평균: -91.0 dB, 최대: -91.0 dB
+2025-06-29 13:01:22 - app.utils.audio_normalizer - INFO - 정규화 후 - 평균: -0.0 dB, 최대: 0.0 dB
+2025-06-29 13:01:23 - app.services.broadcast_controller - WARNING - 오디오 파일 길이 확인 실패: file does not start with RIFF id
+2025-06-29 16:25:17 - app.utils.audio_normalizer - INFO - 고품질 오디오 정규화 시작: c:\Users\bssmBroadcast\BSMBC\data\temp\audio_20250629_162516_tts.wav
+2025-06-29 16:25:17 - app.utils.audio_normalizer - INFO - 목표 볼륨: -10.0 dBFS, 헤드룸: 1.0 dB
+2025-06-29 16:25:17 - app.utils.audio_normalizer - INFO - 고품질 정규화 완료: c:\Users\bssmBroadcast\BSMBC\data\temp\normalized_20250629_162517_norm.mp3
+2025-06-29 16:25:17 - app.utils.audio_normalizer - INFO - 정규화 전 - 평균: -21.3 dB, 최대: -5.3 dB
+2025-06-29 16:25:17 - app.utils.audio_normalizer - INFO - 정규화 후 - 평균: -20.5 dB, 최대: -4.5 dB
+2025-06-29 16:25:34 - app.services.broadcast_manager - INFO - 방 번호 기반 제어 + 패킷 전송: {303}
+2025-06-29 16:25:34 - app.services.broadcast_manager - INFO - 패킷 전송 성공: [303] (총 1개 방)
+2025-06-29 16:25:34 - app.services.broadcast_manager - INFO - 서버 응답: 022c005342000000000000000000000000000400000000000000000000000000000000000000000000003b03
+2025-06-29 16:25:47 - app.services.broadcast_manager - INFO - 장치 끄기 + 패킷 전송: (3, 3)
+2025-06-29 16:25:47 - app.services.broadcast_manager - INFO - 패킷 전송 성공: [] (총 0개 방)
+2025-06-29 16:25:47 - app.services.broadcast_manager - INFO - 서버 응답: 022c005342000000000000000000000000000000000000000000000000000000000000000000000000003f03
+2025-06-29 16:25:52 - app.utils.audio_normalizer - INFO - 고품질 오디오 정규화 시작: c:\Users\bssmBroadcast\BSMBC\data\temp\audio_20250629_162551_tts.wav
+2025-06-29 16:25:52 - app.utils.audio_normalizer - INFO - 목표 볼륨: -10.0 dBFS, 헤드룸: 1.0 dB
+2025-06-29 16:25:52 - app.utils.audio_normalizer - INFO - 고품질 정규화 완료: c:\Users\bssmBroadcast\BSMBC\data\temp\normalized_20250629_162552_norm.mp3
+2025-06-29 16:25:52 - app.utils.audio_normalizer - INFO - 정규화 전 - 평균: -17.6 dB, 최대: -5.2 dB
+2025-06-29 16:25:52 - app.utils.audio_normalizer - INFO - 정규화 후 - 평균: -16.8 dB, 최대: -4.5 dB
+2025-06-29 16:29:17 - app.utils.audio_normalizer - INFO - 고품질 오디오 정규화 시작: c:\Users\bssmBroadcast\BSMBC\data\temp\audio_20250629_162917_tts.wav
+2025-06-29 16:29:17 - app.utils.audio_normalizer - INFO - 목표 볼륨: -10.0 dBFS, 헤드룸: 1.0 dB
+2025-06-29 16:29:18 - app.utils.audio_normalizer - INFO - 고품질 정규화 완료: c:\Users\bssmBroadcast\BSMBC\data\temp\normalized_20250629_162917_norm.mp3
+2025-06-29 16:29:18 - app.utils.audio_normalizer - INFO - 정규화 전 - 평균: -19.5 dB, 최대: -1.9 dB
+2025-06-29 16:29:18 - app.utils.audio_normalizer - INFO - 정규화 후 - 평균: -22.2 dB, 최대: -4.5 dB
+2025-06-29 16:34:21 - app.utils.audio_normalizer - INFO - 고품질 오디오 정규화 시작: c:\Users\bssmBroadcast\BSMBC\data\temp\audio_20250629_163420_tts.wav
+2025-06-29 16:34:21 - app.utils.audio_normalizer - INFO - 목표 볼륨: -10.0 dBFS, 헤드룸: 1.0 dB
+2025-06-29 16:34:21 - app.utils.audio_normalizer - INFO - 고품질 정규화 완료: c:\Users\bssmBroadcast\BSMBC\data\temp\normalized_20250629_163421_norm.mp3
+2025-06-29 16:34:21 - app.utils.audio_normalizer - INFO - 정규화 전 - 평균: -18.0 dB, 최대: -1.9 dB
+2025-06-29 16:34:21 - app.utils.audio_normalizer - INFO - 정규화 후 - 평균: -20.7 dB, 최대: -4.5 dB
+2025-06-29 16:35:41 - app.utils.audio_normalizer - INFO - 고품질 오디오 정규화 시작: c:\Users\bssmBroadcast\BSMBC\data\temp\audio_20250629_163540_tts.wav
+2025-06-29 16:35:41 - app.utils.audio_normalizer - INFO - 목표 볼륨: -10.0 dBFS, 헤드룸: 1.0 dB
+2025-06-29 16:35:41 - app.utils.audio_normalizer - INFO - 고품질 정규화 완료: c:\Users\bssmBroadcast\BSMBC\data\temp\normalized_20250629_163541_norm.mp3
+2025-06-29 16:35:41 - app.utils.audio_normalizer - INFO - 정규화 전 - 평균: -17.6 dB, 최대: -6.3 dB
+2025-06-29 16:35:41 - app.utils.audio_normalizer - INFO - 정규화 후 - 평균: -15.8 dB, 최대: -4.4 dB
+2025-06-29 16:36:45 - app.utils.audio_normalizer - INFO - 고품질 오디오 정규화 시작: c:\Users\bssmBroadcast\BSMBC\data\temp\audio_20250629_163644_tts.wav
+2025-06-29 16:36:45 - app.utils.audio_normalizer - INFO - 목표 볼륨: -10.0 dBFS, 헤드룸: 1.0 dB
+2025-06-29 16:36:45 - app.utils.audio_normalizer - INFO - 고품질 정규화 완료: c:\Users\bssmBroadcast\BSMBC\data\temp\normalized_20250629_163645_norm.mp3
+2025-06-29 16:36:45 - app.utils.audio_normalizer - INFO - 정규화 전 - 평균: -18.5 dB, 최대: -2.7 dB
+2025-06-29 16:36:45 - app.utils.audio_normalizer - INFO - 정규화 후 - 평균: -20.4 dB, 최대: -4.5 dB
+2025-06-29 16:37:54 - app.utils.audio_normalizer - INFO - 고품질 오디오 정규화 시작: c:\Users\bssmBroadcast\BSMBC\data\temp\audio_20250629_163753_tts.wav
+2025-06-29 16:37:54 - app.utils.audio_normalizer - INFO - 목표 볼륨: -10.0 dBFS, 헤드룸: 1.0 dB
+2025-06-29 16:37:54 - app.utils.audio_normalizer - INFO - 고품질 정규화 완료: c:\Users\bssmBroadcast\BSMBC\data\temp\normalized_20250629_163754_norm.mp3
+2025-06-29 16:37:54 - app.utils.audio_normalizer - INFO - 정규화 전 - 평균: -19.3 dB, 최대: -5.3 dB
+2025-06-29 16:37:54 - app.utils.audio_normalizer - INFO - 정규화 후 - 평균: -15.3 dB, 최대: -4.4 dB
+2025-06-29 16:38:08 - app.utils.audio_normalizer - INFO - 고품질 오디오 정규화 시작: c:\Users\bssmBroadcast\BSMBC\data\temp\audio_20250629_163807_tts.wav
+2025-06-29 16:38:08 - app.utils.audio_normalizer - INFO - 목표 볼륨: -10.0 dBFS, 헤드룸: 1.0 dB
+2025-06-29 16:38:08 - app.utils.audio_normalizer - INFO - 고품질 정규화 완료: c:\Users\bssmBroadcast\BSMBC\data\temp\normalized_20250629_163808_norm.mp3
+2025-06-29 16:38:08 - app.utils.audio_normalizer - INFO - 정규화 전 - 평균: -19.7 dB, 최대: -5.5 dB
+2025-06-29 16:38:08 - app.utils.audio_normalizer - INFO - 정규화 후 - 평균: -15.2 dB, 최대: -4.3 dB
+2025-06-29 16:38:21 - app.utils.audio_normalizer - INFO - 고품질 오디오 정규화 시작: c:\Users\bssmBroadcast\BSMBC\data\temp\audio_20250629_163820_tts.wav
+2025-06-29 16:38:21 - app.utils.audio_normalizer - INFO - 목표 볼륨: -10.0 dBFS, 헤드룸: 1.0 dB
+2025-06-29 16:38:21 - app.utils.audio_normalizer - INFO - 고품질 정규화 완료: c:\Users\bssmBroadcast\BSMBC\data\temp\normalized_20250629_163821_norm.mp3
+2025-06-29 16:38:21 - app.utils.audio_normalizer - INFO - 정규화 전 - 평균: -18.8 dB, 최대: -4.4 dB
+2025-06-29 16:38:21 - app.utils.audio_normalizer - INFO - 정규화 후 - 평균: -19.0 dB, 최대: -4.5 dB
+2025-06-29 16:39:25 - app.utils.audio_normalizer - INFO - 고품질 오디오 정규화 시작: c:\Users\bssmBroadcast\BSMBC\data\temp\audio_20250629_163924_tts.wav
+2025-06-29 16:39:25 - app.utils.audio_normalizer - INFO - 목표 볼륨: -10.0 dBFS, 헤드룸: 1.0 dB
+2025-06-29 16:39:25 - app.utils.audio_normalizer - INFO - 고품질 정규화 완료: c:\Users\bssmBroadcast\BSMBC\data\temp\normalized_20250629_163925_norm.mp3
+2025-06-29 16:39:25 - app.utils.audio_normalizer - INFO - 정규화 전 - 평균: -19.7 dB, 최대: -5.1 dB
+2025-06-29 16:39:25 - app.utils.audio_normalizer - INFO - 정규화 후 - 평균: -19.2 dB, 최대: -4.6 dB
+2025-06-29 16:43:57 - app.utils.audio_normalizer - INFO - 고품질 오디오 정규화 시작: c:\Users\bssmBroadcast\BSMBC\data\temp\audio_20250629_164357_tts.wav
+2025-06-29 16:43:57 - app.utils.audio_normalizer - INFO - 목표 볼륨: -10.0 dBFS, 헤드룸: 1.0 dB
+2025-06-29 16:43:58 - app.utils.audio_normalizer - INFO - 고품질 정규화 완료: c:\Users\bssmBroadcast\BSMBC\data\temp\normalized_20250629_164357_norm.mp3
+2025-06-29 16:43:58 - app.utils.audio_normalizer - INFO - 정규화 전 - 평균: -18.1 dB, 최대: -5.0 dB
+2025-06-29 16:43:58 - app.utils.audio_normalizer - INFO - 정규화 후 - 평균: -17.6 dB, 최대: -4.5 dB
+2025-06-29 16:44:45 - app.utils.audio_normalizer - INFO - 고품질 오디오 정규화 시작: c:\Users\bssmBroadcast\BSMBC\data\temp\audio_20250629_164445_tts.wav
+2025-06-29 16:44:45 - app.utils.audio_normalizer - INFO - 목표 볼륨: -10.0 dBFS, 헤드룸: 1.0 dB
+2025-06-29 16:44:46 - app.utils.audio_normalizer - INFO - 고품질 정규화 완료: c:\Users\bssmBroadcast\BSMBC\data\temp\normalized_20250629_164445_norm.mp3
+2025-06-29 16:44:46 - app.utils.audio_normalizer - INFO - 정규화 전 - 평균: -19.1 dB, 최대: -5.6 dB
+2025-06-29 16:44:46 - app.utils.audio_normalizer - INFO - 정규화 후 - 평균: -18.0 dB, 최대: -4.4 dB
+2025-06-29 16:45:22 - app.utils.audio_normalizer - INFO - 고품질 오디오 정규화 시작: c:\Users\bssmBroadcast\BSMBC\data\temp\audio_20250629_164521_tts.wav
+2025-06-29 16:45:22 - app.utils.audio_normalizer - INFO - 목표 볼륨: -10.0 dBFS, 헤드룸: 1.0 dB
+2025-06-29 16:45:22 - app.utils.audio_normalizer - INFO - 고품질 정규화 완료: c:\Users\bssmBroadcast\BSMBC\data\temp\normalized_20250629_164522_norm.mp3
+2025-06-29 16:45:22 - app.utils.audio_normalizer - INFO - 정규화 전 - 평균: -18.3 dB, 최대: -5.8 dB
+2025-06-29 16:45:22 - app.utils.audio_normalizer - INFO - 정규화 후 - 평균: -17.0 dB, 최대: -4.6 dB
+2025-06-29 16:54:15 - app.utils.audio_normalizer - INFO - 고품질 오디오 정규화 시작: c:\Users\bssmBroadcast\BSMBC\data\temp\audio_20250629_165414_tts.wav
+2025-06-29 16:54:15 - app.utils.audio_normalizer - INFO - 목표 볼륨: -10.0 dBFS, 헤드룸: 1.0 dB
+2025-06-29 16:54:15 - app.utils.audio_normalizer - INFO - 고품질 정규화 완료: c:\Users\bssmBroadcast\BSMBC\data\temp\normalized_20250629_165415_norm.mp3
+2025-06-29 16:54:15 - app.utils.audio_normalizer - INFO - 정규화 전 - 평균: -17.3 dB, 최대: -5.6 dB
+2025-06-29 16:54:15 - app.utils.audio_normalizer - INFO - 정규화 후 - 평균: -16.2 dB, 최대: -4.4 dB
+2025-06-29 16:54:27 - app.utils.audio_normalizer - INFO - 고품질 오디오 정규화 시작: c:\Users\bssmBroadcast\BSMBC\data\temp\audio_20250629_165426_tts.wav
+2025-06-29 16:54:27 - app.utils.audio_normalizer - INFO - 목표 볼륨: -10.0 dBFS, 헤드룸: 1.0 dB
+2025-06-29 16:54:27 - app.utils.audio_normalizer - INFO - 고품질 정규화 완료: c:\Users\bssmBroadcast\BSMBC\data\temp\normalized_20250629_165427_norm.mp3
+2025-06-29 16:54:27 - app.utils.audio_normalizer - INFO - 정규화 전 - 평균: -17.3 dB, 최대: -5.6 dB
+2025-06-29 16:54:27 - app.utils.audio_normalizer - INFO - 정규화 후 - 평균: -16.2 dB, 최대: -4.4 dB
+2025-06-29 21:44:46 - app.utils.audio_normalizer - INFO - 고품질 오디오 정규화 시작: c:\Users\bssmBroadcast\BSMBC\data\temp\audio_20250629_214443_tts.wav
+2025-06-29 21:44:46 - app.utils.audio_normalizer - INFO - 목표 볼륨: -10.0 dBFS, 헤드룸: 1.0 dB
+2025-06-29 21:44:47 - app.utils.audio_normalizer - INFO - 고품질 정규화 완료: c:\Users\bssmBroadcast\BSMBC\data\temp\normalized_20250629_214446_norm.mp3
+2025-06-29 21:44:47 - app.utils.audio_normalizer - INFO - 정규화 전 - 평균: -19.3 dB, 최대: -3.2 dB
+2025-06-29 21:44:47 - app.utils.audio_normalizer - INFO - 정규화 후 - 평균: -16.0 dB, 최대: -4.4 dB
+2025-06-29 21:46:24 - app.utils.audio_normalizer - INFO - 고품질 오디오 정규화 시작: c:\Users\bssmBroadcast\BSMBC\data\temp\audio_20250629_214623_tts.wav
+2025-06-29 21:46:24 - app.utils.audio_normalizer - INFO - 목표 볼륨: -10.0 dBFS, 헤드룸: 1.0 dB
+2025-06-29 21:46:25 - app.utils.audio_normalizer - INFO - 고품질 정규화 완료: c:\Users\bssmBroadcast\BSMBC\data\temp\normalized_20250629_214624_norm.mp3
+2025-06-29 21:46:25 - app.utils.audio_normalizer - INFO - 정규화 전 - 평균: -19.0 dB, 최대: -3.0 dB
+2025-06-29 21:46:25 - app.utils.audio_normalizer - INFO - 정규화 후 - 평균: -15.6 dB, 최대: -4.3 dB
+2025-06-29 21:46:50 - app.services.broadcast_manager - INFO - 방 번호 기반 제어 + 패킷 전송: {408, 409, 410, 411, 412}
+2025-06-29 21:46:50 - app.services.broadcast_manager - INFO - 패킷 전송 성공: [408, 409, 410, 411, 412] (총 5개 방)
+2025-06-29 21:46:50 - app.services.broadcast_manager - INFO - 서버 응답: 022c0053420000000000000000000000000000000000800f000000000000000000000000000000000000b003
+2025-06-29 21:47:14 - app.services.broadcast_manager - INFO - 장치 끄기 + 패킷 전송: (4, 8)
+2025-06-29 21:47:14 - app.services.broadcast_manager - INFO - 패킷 전송 성공: [409, 410, 411, 412] (총 4개 방)
+2025-06-29 21:47:14 - app.services.broadcast_manager - INFO - 서버 응답: 022c0053420000000000000000000000000000000000000f0000000000000000000000000000000000003003
+2025-06-29 21:47:14 - app.services.broadcast_manager - INFO - 장치 끄기 + 패킷 전송: (4, 9)
+2025-06-29 21:47:14 - app.services.broadcast_manager - INFO - 패킷 전송 성공: [410, 411, 412] (총 3개 방)
+2025-06-29 21:47:14 - app.services.broadcast_manager - INFO - 서버 응답: 022c0053420000000000000000000000000000000000000e0000000000000000000000000000000000003103
+2025-06-29 21:47:14 - app.services.broadcast_manager - INFO - 장치 끄기 + 패킷 전송: (4, 10)
+2025-06-29 21:47:14 - app.services.broadcast_manager - INFO - 패킷 전송 성공: [411, 412] (총 2개 방)
+2025-06-29 21:47:14 - app.services.broadcast_manager - INFO - 서버 응답: 022c0053420000000000000000000000000000000000000c0000000000000000000000000000000000003303
+2025-06-29 21:47:14 - app.services.broadcast_manager - INFO - 장치 끄기 + 패킷 전송: (4, 11)
+2025-06-29 21:47:14 - app.services.broadcast_manager - INFO - 패킷 전송 성공: [412] (총 1개 방)
+2025-06-29 21:47:14 - app.services.broadcast_manager - INFO - 서버 응답: 022c005342000000000000000000000000000000000000080000000000000000000000000000000000003703
+2025-06-29 21:47:14 - app.services.broadcast_manager - INFO - 장치 끄기 + 패킷 전송: (4, 12)
+2025-06-29 21:47:14 - app.services.broadcast_manager - INFO - 패킷 전송 성공: [] (총 0개 방)
+2025-06-29 21:47:14 - app.services.broadcast_manager - INFO - 서버 응답: 022c005342000000000000000000000000000000000000000000000000000000000000000000000000003f03
+2025-06-30 08:29:06 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 시작: c:\Users\bssmBroadcast\BSMBC\data\temp\preview_audio_20250630_082906.wav
+2025-06-30 08:29:07 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 완료: 0.0초
+2025-06-30 08:29:07 - app.api.routes.broadcast - INFO - [API] use_original 플래그: False, original_preview_id: None
+2025-06-30 08:29:07 - app.services.broadcast_controller - INFO - [프리뷰] use_original 플래그 타입: <class 'bool'>, 값: False
+2025-06-30 08:29:07 - app.services.broadcast_controller - INFO - [프리뷰] use_original 플래그가 False입니다. 일반 처리로 진행합니다.
+2025-06-30 08:29:08 - app.utils.audio_normalizer - INFO - 고품질 오디오 정규화 시작: c:\Users\bssmBroadcast\BSMBC\data\temp\preview_audio_20250630_082906.wav
+2025-06-30 08:29:08 - app.utils.audio_normalizer - INFO - 목표 볼륨: -10.0 dBFS, 헤드룸: 1.0 dB
+2025-06-30 08:29:09 - app.utils.audio_normalizer - INFO - 고품질 정규화 완료: c:\Users\bssmBroadcast\BSMBC\data\temp\normalized_20250630_082908_norm.mp3
+2025-06-30 08:29:09 - app.utils.audio_normalizer - INFO - 정규화 전 - 평균: -19.4 dB, 최대: -0.0 dB
+2025-06-30 08:29:09 - app.utils.audio_normalizer - INFO - 정규화 후 - 평균: -20.3 dB, 최대: -4.4 dB
+2025-06-30 08:29:10 - app.services.broadcast_controller - WARNING - 오디오 파일 길이 확인 실패: file does not start with RIFF id
+2025-06-30 08:29:31 - app.services.broadcast_manager - INFO - 방 번호 기반 제어 + 패킷 전송: {201, 202, 203, 204}
+2025-06-30 08:29:31 - app.services.broadcast_manager - INFO - 패킷 전송 성공: [201, 202, 203, 204] (총 4개 방)
+2025-06-30 08:29:31 - app.services.broadcast_manager - INFO - 서버 응답: 022c0053420000000000000000000f0000000000000000000000000000000000000000000000000000003003
+2025-06-30 08:29:51 - app.services.broadcast_manager - INFO - 장치 끄기 + 패킷 전송: (2, 1)
+2025-06-30 08:29:51 - app.services.broadcast_manager - INFO - 패킷 전송 성공: [202, 203, 204] (총 3개 방)
+2025-06-30 08:29:51 - app.services.broadcast_manager - INFO - 서버 응답: 022c0053420000000000000000000e0000000000000000000000000000000000000000000000000000003103
+2025-06-30 08:29:51 - app.services.broadcast_manager - INFO - 장치 끄기 + 패킷 전송: (2, 2)
+2025-06-30 08:29:51 - app.services.broadcast_manager - INFO - 패킷 전송 성공: [203, 204] (총 2개 방)
+2025-06-30 08:29:51 - app.services.broadcast_manager - INFO - 서버 응답: 022c0053420000000000000000000c0000000000000000000000000000000000000000000000000000003303
+2025-06-30 08:29:51 - app.services.broadcast_manager - INFO - 장치 끄기 + 패킷 전송: (2, 3)
+2025-06-30 08:29:51 - app.services.broadcast_manager - INFO - 패킷 전송 성공: [204] (총 1개 방)
+2025-06-30 08:29:51 - app.services.broadcast_manager - INFO - 서버 응답: 022c005342000000000000000000080000000000000000000000000000000000000000000000000000003703
+2025-06-30 08:29:51 - app.services.broadcast_manager - INFO - 장치 끄기 + 패킷 전송: (2, 4)
+2025-06-30 08:29:51 - app.services.broadcast_manager - INFO - 패킷 전송 성공: [] (총 0개 방)
+2025-06-30 08:29:51 - app.services.broadcast_manager - INFO - 서버 응답: 022c005342000000000000000000000000000000000000000000000000000000000000000000000000003f03
+2025-06-30 08:30:39 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 시작: c:\Users\bssmBroadcast\BSMBC\data\temp\preview_audio_20250630_083039.mp3
+2025-06-30 08:30:39 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 완료: 19.1초
+2025-06-30 08:30:39 - app.api.routes.broadcast - INFO - [API] use_original 플래그: False, original_preview_id: None
+2025-06-30 08:30:39 - app.services.broadcast_controller - INFO - [프리뷰] use_original 플래그 타입: <class 'bool'>, 값: False
+2025-06-30 08:30:39 - app.services.broadcast_controller - INFO - [프리뷰] use_original 플래그가 False입니다. 일반 처리로 진행합니다.
+2025-06-30 08:30:40 - app.utils.audio_normalizer - INFO - 고품질 오디오 정규화 시작: c:\Users\bssmBroadcast\BSMBC\data\temp\preview_audio_20250630_083039.mp3
+2025-06-30 08:30:40 - app.utils.audio_normalizer - INFO - 목표 볼륨: -10.0 dBFS, 헤드룸: 1.0 dB
+2025-06-30 08:30:41 - app.utils.audio_normalizer - INFO - 고품질 정규화 완료: c:\Users\bssmBroadcast\BSMBC\data\temp\normalized_20250630_083040_norm.mp3
+2025-06-30 08:30:41 - app.utils.audio_normalizer - INFO - 정규화 전 - 평균: -16.6 dB, 최대: -1.4 dB
+2025-06-30 08:30:41 - app.utils.audio_normalizer - INFO - 정규화 후 - 평균: -14.7 dB, 최대: -1.4 dB
+2025-06-30 08:30:54 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 시작: c:\Users\bssmBroadcast\BSMBC\data\temp\preview_audio_20250630_083054.mp3
+2025-06-30 08:30:54 - app.api.routes.broadcast - INFO - 오디오 파일 길이 확인 완료: 19.1초
+2025-06-30 08:30:54 - app.api.routes.broadcast - INFO - [API] use_original 플래그: False, original_preview_id: None
+2025-06-30 08:30:54 - app.services.broadcast_controller - INFO - [프리뷰] use_original 플래그 타입: <class 'bool'>, 값: False
+2025-06-30 08:30:54 - app.services.broadcast_controller - INFO - [프리뷰] use_original 플래그가 False입니다. 일반 처리로 진행합니다.
+2025-06-30 08:30:54 - app.utils.audio_normalizer - INFO - 고품질 오디오 정규화 시작: c:\Users\bssmBroadcast\BSMBC\data\temp\preview_audio_20250630_083054.mp3
+2025-06-30 08:30:54 - app.utils.audio_normalizer - INFO - 목표 볼륨: -10.0 dBFS, 헤드룸: 1.0 dB
+2025-06-30 08:30:56 - app.utils.audio_normalizer - INFO - 고품질 정규화 완료: c:\Users\bssmBroadcast\BSMBC\data\temp\normalized_20250630_083054_norm.mp3
+2025-06-30 08:30:56 - app.utils.audio_normalizer - INFO - 정규화 전 - 평균: -16.6 dB, 최대: -1.4 dB
+2025-06-30 08:30:56 - app.utils.audio_normalizer - INFO - 정규화 후 - 평균: -14.7 dB, 최대: -1.4 dB
+2025-06-30 08:37:17 - app.utils.audio_normalizer - INFO - 고품질 오디오 정규화 시작: c:\Users\bssmBroadcast\BSMBC\data\temp\audio_20250630_083717_tts.wav
+2025-06-30 08:37:17 - app.utils.audio_normalizer - INFO - 목표 볼륨: -10.0 dBFS, 헤드룸: 1.0 dB
+2025-06-30 08:37:17 - app.utils.audio_normalizer - INFO - 고품질 정규화 완료: c:\Users\bssmBroadcast\BSMBC\data\temp\normalized_20250630_083717_norm.mp3
+2025-06-30 08:37:17 - app.utils.audio_normalizer - INFO - 정규화 전 - 평균: -22.2 dB, 최대: -4.5 dB
+2025-06-30 08:37:17 - app.utils.audio_normalizer - INFO - 정규화 후 - 평균: -22.2 dB, 최대: -4.5 dB
+2025-06-30 08:38:23 - app.utils.audio_normalizer - INFO - 고품질 오디오 정규화 시작: c:\Users\bssmBroadcast\BSMBC\data\temp\audio_20250630_083822_tts.wav
+2025-06-30 08:38:23 - app.utils.audio_normalizer - INFO - 목표 볼륨: -10.0 dBFS, 헤드룸: 1.0 dB
+2025-06-30 08:38:24 - app.utils.audio_normalizer - INFO - 고품질 정규화 완료: c:\Users\bssmBroadcast\BSMBC\data\temp\normalized_20250630_083823_norm.mp3
+2025-06-30 08:38:24 - app.utils.audio_normalizer - INFO - 정규화 전 - 평균: -19.2 dB, 최대: -4.6 dB
+2025-06-30 08:38:24 - app.utils.audio_normalizer - INFO - 정규화 후 - 평균: -16.4 dB, 최대: -4.3 dB
+2025-06-30 08:38:37 - app.services.broadcast_manager - INFO - 방 번호 기반 제어 + 패킷 전송: {315}
+2025-06-30 08:38:37 - app.services.broadcast_manager - INFO - 패킷 전송 성공: [315] (총 1개 방)
+2025-06-30 08:38:37 - app.services.broadcast_manager - INFO - 서버 응답: 022c005342000000000000000000000000000040000000000000000000000000000000000000000000007f03
+2025-06-30 08:38:48 - app.services.broadcast_manager - INFO - 장치 끄기 + 패킷 전송: (3, 15)
+2025-06-30 08:38:48 - app.services.broadcast_manager - INFO - 패킷 전송 성공: [] (총 0개 방)
+2025-06-30 08:38:48 - app.services.broadcast_manager - INFO - 서버 응답: 022c005342000000000000000000000000000000000000000000000000000000000000000000000000003f03
+2025-06-30 08:46:54 - app.utils.audio_normalizer - INFO - 고품질 오디오 정규화 시작: c:\Users\bssmBroadcast\BSMBC\data\temp\audio_20250630_084654_tts.wav
+2025-06-30 08:46:54 - app.utils.audio_normalizer - INFO - 목표 볼륨: -10.0 dBFS, 헤드룸: 1.0 dB
+2025-06-30 08:46:55 - app.utils.audio_normalizer - INFO - 고품질 정규화 완료: c:\Users\bssmBroadcast\BSMBC\data\temp\normalized_20250630_084654_norm.mp3
+2025-06-30 08:46:55 - app.utils.audio_normalizer - INFO - 정규화 전 - 평균: -20.9 dB, 최대: -5.0 dB
+2025-06-30 08:46:55 - app.utils.audio_normalizer - INFO - 정규화 후 - 평균: -20.5 dB, 최대: -4.5 dB
+2025-06-30 11:32:27 - app.utils.audio_normalizer - INFO - 고품질 오디오 정규화 시작: c:\Users\bssmBroadcast\BSMBC\data\temp\audio_20250630_113227_tts.wav
+2025-06-30 11:32:27 - app.utils.audio_normalizer - INFO - 목표 볼륨: -10.0 dBFS, 헤드룸: 1.0 dB
+2025-06-30 11:32:28 - app.utils.audio_normalizer - INFO - 고품질 정규화 완료: c:\Users\bssmBroadcast\BSMBC\data\temp\normalized_20250630_113227_norm.mp3
+2025-06-30 11:32:28 - app.utils.audio_normalizer - INFO - 정규화 전 - 평균: -20.7 dB, 최대: -4.4 dB
+2025-06-30 11:32:28 - app.utils.audio_normalizer - INFO - 정규화 후 - 평균: -20.8 dB, 최대: -4.5 dB
+2025-06-30 11:32:39 - app.services.broadcast_manager - INFO - 방 번호 기반 제어 + 패킷 전송: {315}
+2025-06-30 11:32:39 - app.services.broadcast_manager - INFO - 패킷 전송 성공: [315] (총 1개 방)
+2025-06-30 11:32:39 - app.services.broadcast_manager - INFO - 서버 응답: 022c005342000000000000000000000000000040000000000000000000000000000000000000000000007f03
+2025-06-30 11:32:48 - app.services.broadcast_manager - INFO - 장치 끄기 + 패킷 전송: (3, 15)
+2025-06-30 11:32:48 - app.services.broadcast_manager - INFO - 패킷 전송 성공: [] (총 0개 방)
+2025-06-30 11:32:48 - app.services.broadcast_manager - INFO - 서버 응답: 022c005342000000000000000000000000000000000000000000000000000000000000000000000000003f03

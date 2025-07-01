@@ -17,6 +17,9 @@ from typing import List, Dict, Any, Set, Tuple, Optional, Union
 from fastapi import UploadFile, HTTPException
 import sys
 import hashlib
+import shutil
+import asyncio
+from concurrent.futures import ThreadPoolExecutor
 
 # 멜로 TTS 및 오디오 처리 라이브러리
 TTS_ENGINE = None
@@ -149,8 +152,20 @@ class BroadcastController:
         
         # 프리뷰 관리
         self.preview_dir = Path("D:/previews")
-        self.preview_dir.mkdir(exist_ok=True)
+        print(f"[*] 프리뷰 디렉토리 설정: {self.preview_dir}")
+        print(f"[*] 프리뷰 디렉토리 절대 경로: {self.preview_dir.absolute()}")
+        
+        try:
+            self.preview_dir.mkdir(exist_ok=True)
+            print(f"[*] 프리뷰 디렉토리 생성/확인 완료: {self.preview_dir}")
+        except Exception as e:
+            print(f"[!] 프리뷰 디렉토리 생성 실패: {e}")
+        
         self.pending_previews = {}  # preview_id -> preview_info
+        
+        # 프리뷰 생성용 스레드 풀 (병렬 처리용)
+        self.preview_executor = ThreadPoolExecutor(max_workers=4, thread_name_prefix="preview_worker")
+        print(f"[*] 프리뷰 생성 스레드 풀 초기화 완료 (최대 4개 동시 처리)")
         
         # 장치 상태 저장 및 복원 기능
         self.device_state_backup = {}  # 방송 전 장치 상태 저장
@@ -1176,7 +1191,20 @@ class BroadcastController:
             return False
 
     def create_preview(self, job_type, params):
-        """방송 프리뷰 생성"""
+        """프리뷰 생성 (병렬 처리)"""
+        # 스레드 풀에서 프리뷰 생성 실행
+        future = self.preview_executor.submit(self._create_preview_sync, job_type, params)
+        return future.result()  # 완료될 때까지 기다림
+    
+    async def create_preview_async(self, job_type, params):
+        """프리뷰 생성 (비동기)"""
+        # 별도 스레드에서 프리뷰 생성 실행
+        loop = asyncio.get_event_loop()
+        result = await loop.run_in_executor(None, self._create_preview_sync, job_type, params)
+        return result
+    
+    def _create_preview_sync(self, job_type, params):
+        """프리뷰 생성 (동기)"""
         try:
             import datetime
             import hashlib
@@ -1333,9 +1361,32 @@ class BroadcastController:
             from ..core.config import config
             
             audio_path = params.get('audio_path')
+            use_original = params.get('use_original', False)  # 원본 사용 플래그
+            original_preview_id = params.get('original_preview_id', '')  # 원본 프리뷰 ID
+            
             if not audio_path or not Path(audio_path).exists():
                 raise Exception(f"오디오 파일을 찾을 수 없음: {audio_path}")
             
+            print(f"[프리뷰] 오디오 프리뷰 생성 시작 (use_original={use_original})")
+            logger.info(f"[프리뷰] use_original 플래그 타입: {type(use_original)}, 값: {use_original}")
+            
+            # 원본 사용 플래그가 있는 경우 원본 파일을 그대로 프리뷰로 사용
+            if use_original:
+                print(f"[프리뷰] 원본 사용 플래그 감지: 원본 파일을 그대로 프리뷰로 사용")
+                logger.info(f"[프리뷰] 원본 사용 플래그가 True입니다. 정규화 및 시작음/끝음 추가를 건너뜁니다.")
+                # 원본 파일을 프리뷰 디렉토리로 복사
+                preview_path = self.preview_dir / f"{preview_id}.mp3"
+                print(f"[프리뷰] 프리뷰 파일 저장 경로: {preview_path}")
+                print(f"[프리뷰] 프리뷰 파일 절대 경로: {preview_path.absolute()}")
+                shutil.copy2(audio_path, preview_path)
+                
+                print(f"[*] 원본 파일을 프리뷰로 복사 완료: {preview_path}")
+                logger.info(f"[프리뷰] 원본 파일 복사 완료: {audio_path} -> {preview_path}")
+                return str(preview_path)
+            else:
+                logger.info(f"[프리뷰] use_original 플래그가 False입니다. 일반 처리로 진행합니다.")
+            
+            # 일반 파일 처리 (기존 로직)
             # config에서 ffmpeg 경로 가져오기
             ffmpeg_paths = config.get_ffmpeg_paths()
             ffmpeg_path = Path(ffmpeg_paths["ffmpeg_path"])
@@ -1370,6 +1421,7 @@ class BroadcastController:
                 
                 # 프리뷰 파일 저장
                 preview_path = self.preview_dir / f"{preview_id}.mp3"
+                print(f"[프리뷰] 일반 처리 프리뷰 파일 저장 경로: {preview_path}")
                 preview_audio.export(str(preview_path), format="mp3")
                 
                 # ffprobe로 파일 길이 확인
@@ -1451,7 +1503,7 @@ class BroadcastController:
             success = audio_normalizer.normalize_audio_high_quality(
                 input_path=audio_path,
                 output_path=str(normalized_path),
-                target_dbfs=norm_info.get("target_volume", -10.0),
+                target_dbfs=norm_info.get("target_volume", config.default_target_dbfs),  # config에서 기본값 사용
                 headroom=1.0
             )
             

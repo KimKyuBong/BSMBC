@@ -9,3 +9,5 @@ venv/
 ffmpeg/
 
 *.mp3
+*.log
+*.wav

@@ -244,47 +244,53 @@ async def broadcast_audio(
     background_tasks: BackgroundTasks,
     audio_file: UploadFile = File(..., description="방송할 오디오 파일"),
     target_rooms: Optional[str] = Form(None, description="방송할 방 번호 (쉼표로 구분)"),
-    auto_off: bool = Form(True, description="방송 후 자동으로 장치 끄기")
+    auto_off: bool = Form(True, description="방송 후 자동으로 장치 끄기"),
+    use_original: bool = Form(False, description="원본 프리뷰 사용 여부"),
+    original_preview_id: Optional[str] = Form(None, description="원본 프리뷰 ID")
 ):
     """오디오 방송 프리뷰 생성"""
     try:
         # 파일 저장
         file_extension = os.path.splitext(audio_file.filename)[1]
-        temp_path = AUDIO_DIR / f"preview_audio_{datetime.now().strftime('%Y%m%d_%H%M%S')}{file_extension}"
+        temp_path = Path(config.temp_dir) / f"preview_audio_{datetime.now().strftime('%Y%m%d_%H%M%S')}{file_extension}"
         with open(temp_path, "wb") as f:
             content = await audio_file.read()
             f.write(content)
         
-        # 파일 길이 체크 (5분 = 300초 제한)
-        try:
-            logger.info(f"오디오 파일 길이 확인 시작: {temp_path}")
-            duration = broadcast_controller._get_audio_duration_with_ffprobe(str(temp_path))
-            logger.info(f"오디오 파일 길이 확인 완료: {duration:.1f}초")
-            
-            if duration > 300:  # 5분 초과
-                logger.warning(f"오디오 파일이 너무 김: {duration:.1f}초 > 300초")
-                # 임시 파일 삭제
+        # use_original이 True가 아닐 때만 파일 길이 체크
+        if not use_original:
+            # 파일 길이 체크 (5분 = 300초 제한)
+            try:
+                logger.info(f"오디오 파일 길이 확인 시작: {temp_path}")
+                duration = broadcast_controller._get_audio_duration_with_ffprobe(str(temp_path))
+                logger.info(f"오디오 파일 길이 확인 완료: {duration:.1f}초")
+                
+                if duration > 300:  # 5분 초과
+                    logger.warning(f"오디오 파일이 너무 김: {duration:.1f}초 > 300초")
+                    # 임시 파일 삭제
+                    if temp_path.exists():
+                        temp_path.unlink()
+                        logger.info(f"임시 파일 삭제: {temp_path}")
+                    raise HTTPException(
+                        status_code=400, 
+                        detail=f"오디오 파일이 너무 깁니다. 현재 길이: {duration:.1f}초, 최대 허용 길이: 300초 (5분)"
+                    )
+                print(f"[*] 오디오 파일 길이 확인: {duration:.1f}초")
+            except HTTPException:
+                # HTTPException은 그대로 재발생
+                raise
+            except Exception as e:
+                logger.error(f"오디오 파일 길이 확인 실패: {e}")
+                # 길이 확인 실패 시에도 임시 파일 삭제
                 if temp_path.exists():
                     temp_path.unlink()
-                    logger.info(f"임시 파일 삭제: {temp_path}")
+                    logger.info(f"길이 확인 실패로 임시 파일 삭제: {temp_path}")
                 raise HTTPException(
                     status_code=400, 
-                    detail=f"오디오 파일이 너무 깁니다. 현재 길이: {duration:.1f}초, 최대 허용 길이: 300초 (5분)"
+                    detail=f"오디오 파일 길이 확인 실패: {str(e)}"
                 )
-            print(f"[*] 오디오 파일 길이 확인: {duration:.1f}초")
-        except HTTPException:
-            # HTTPException은 그대로 재발생
-            raise
-        except Exception as e:
-            logger.error(f"오디오 파일 길이 확인 실패: {e}")
-            # 길이 확인 실패 시에도 임시 파일 삭제
-            if temp_path.exists():
-                temp_path.unlink()
-                logger.info(f"길이 확인 실패로 임시 파일 삭제: {temp_path}")
-            raise HTTPException(
-                status_code=400, 
-                detail=f"오디오 파일 길이 확인 실패: {str(e)}"
-            )
+        else:
+            logger.info(f"use_original 플래그가 True이므로 파일 길이 체크를 건너뜁니다.")
         
         # 대상 장치 설정
         if target_rooms:
@@ -300,9 +306,14 @@ async def broadcast_audio(
         params = {
             'audio_path': str(temp_path),
             'target_devices': device_names,
-            'end_devices': device_names if auto_off else None
+            'end_devices': device_names if auto_off else None,
+            'use_original': use_original,
+            'original_preview_id': original_preview_id
         }
         
+        logger.info(f"[API] use_original 플래그: {use_original}, original_preview_id: {original_preview_id}")
+        
+        # 프리뷰 생성 (동기 처리 - 완료 후 응답)
         preview_info = broadcast_controller.create_preview('audio', params)
         if not preview_info:
             raise HTTPException(status_code=500, detail="프리뷰 생성 실패")
