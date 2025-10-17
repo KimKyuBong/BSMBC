@@ -40,6 +40,50 @@ async def get_system_info():
         "message": "방송 시스템 API (broadcast_controller 기반)"
     }
 
+# 장치 매트릭스 조회 (Django 서버 호환용)
+@router.get("/device-matrix", response_model=Dict[str, Any])
+@router.get("/device-matrix/", response_model=Dict[str, Any])
+async def get_device_matrix_for_django():
+    """
+    장치 매트릭스 조회 (Django 서버 호환)
+    /api/broadcast/device-matrix/ 경로로 접근 가능
+    """
+    try:
+        matrix = broadcast_controller.device_mapper.get_device_matrix()
+        
+        # 장치번호와 함께 매트릭스 구성
+        enhanced_matrix = []
+        for row_idx, row in enumerate(matrix):
+            row_data = []
+            for col_idx, device_name in enumerate(row):
+                # 장치번호 계산 (1부터 시작하는 행/열 기준)
+                room_id = (row_idx + 1) * 100 + (col_idx + 1)
+                row_data.append({
+                    "device_name": device_name,
+                    "room_id": room_id,
+                    "position": {
+                        "row": row_idx + 1,  # 1부터 시작
+                        "col": col_idx + 1   # 1부터 시작
+                    },
+                    "matrix_position": {
+                        "row": row_idx,      # 0부터 시작 (매트릭스 인덱스)
+                        "col": col_idx       # 0부터 시작 (매트릭스 인덱스)
+                    }
+                })
+            enhanced_matrix.append(row_data)
+        
+        return {
+            "success": True,
+            "message": "장치 매트릭스를 성공적으로 조회했습니다.",
+            "matrix": enhanced_matrix,
+            "total_rows": 4,
+            "total_cols": 16,
+            "total_devices": 64
+        }
+    except Exception as e:
+        logger.error(f"장치 매트릭스 조회 중 오류: {e}")
+        raise HTTPException(status_code=500, detail=f"장치 매트릭스 조회 실패: {str(e)}")
+
 # 장치 상태 매트릭스
 @router.get("/status", response_model=Dict[str, Any])
 async def get_device_status():

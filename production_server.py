@@ -64,9 +64,9 @@ class ProductionServer:
     def start_server(self, host="0.0.0.0", port=8000, workers=1):
         """서버 시작"""
         try:
-            self.logger.info("🚀 프로덕션 서버 시작 중...")
-            self.logger.info(f"📍 서버 주소: http://{host}:{port}")
-            self.logger.info(f"👥 워커 수: {workers}")
+            self.logger.info("Production server starting...")
+            self.logger.info(f"Server address: http://{host}:{port}")
+            self.logger.info(f"Workers: {workers}")
             
             # uvicorn 설정
             config = uvicorn.Config(
@@ -95,14 +95,14 @@ class ProductionServer:
             self.server.run()
             
         except Exception as e:
-            self.logger.error(f"❌ 서버 시작 실패: {e}")
+            self.logger.error(f"Server start failed: {e}")
             self.running = False
             raise
     
     def stop_server(self):
         """서버 중지"""
         if self.server and self.running:
-            self.logger.info("🛑 서버 중지 중...")
+            self.logger.info("Server stopping...")
             self.running = False
             if hasattr(self.server, 'should_exit'):
                 self.server.should_exit = True
@@ -116,47 +116,15 @@ class ProductionServer:
         }
 
 def create_startup_script():
-    """시작 스크립트 생성"""
-    script_content = '''@echo off
-chcp 65001 >nul
-title 프로덕션 서버
-
-echo 🚀 프로덕션 서버 시작
-echo ========================================
-
-cd /d "%~dp0"
-
-:: 가상환경 활성화
-if exist "venv\\Scripts\\activate.bat" (
-    call venv\\Scripts\\activate.bat
-)
-
-:: 서버 시작
-python production_server.py
-
-pause
-'''
-    
-    script_path = project_root / "start_production.bat"
-    with open(script_path, 'w', encoding='utf-8') as f:
-        f.write(script_content)
-    
-    print(f"✅ 프로덕션 시작 스크립트 생성: {script_path}")
+    """시작 스크립트 생성 (사용 안 함 - 서비스 전용)"""
+    pass
 
 def main():
-    """메인 함수"""
-    print("🎯 프로덕션 서버 설정")
-    print("=" * 50)
-    
+    """메인 함수 (서비스 전용)"""
     # 환경 변수에서 설정 읽기
     host = os.getenv("HOST", "0.0.0.0")
     port = int(os.getenv("PORT", "8000"))
     workers = int(os.getenv("WORKERS", "1"))
-    
-    print(f"📍 호스트: {host}")
-    print(f"🔌 포트: {port}")
-    print(f"👥 워커 수: {workers}")
-    print("=" * 50)
     
     # 서버 인스턴스 생성 및 시작
     server = ProductionServer()
@@ -164,16 +132,13 @@ def main():
     try:
         server.start_server(host=host, port=port, workers=workers)
     except KeyboardInterrupt:
-        print("\n👋 사용자에 의해 서버가 중지되었습니다.")
+        pass
     except Exception as e:
-        print(f"❌ 서버 실행 중 오류: {e}")
+        import sys
+        print(f"Server error: {e}", file=sys.stderr)
     finally:
         server.stop_server()
-        print("✅ 서버가 안전하게 종료되었습니다.")
 
 if __name__ == "__main__":
-    # 시작 스크립트 생성 (첫 실행 시)
-    if not (project_root / "start_production.bat").exists():
-        create_startup_script()
-    
+    # 서비스 전용 - 불필요한 스크립트 생성 제거
     main() 

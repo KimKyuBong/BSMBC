@@ -20,9 +20,11 @@ SECURITY_CONFIG_PATH = Path("data/config/security_config.json")
 # 기본 설정
 DEFAULT_CONFIG = {
     "allowed_ip_networks": [
-        "10.129.55.254/32",
+        "10.129.55.253/32",
         "10.129.50.0/24",
-        "127.0.0.1/32"  # 로컬 개발용 (필요시 제거)
+        "127.0.0.1/32",  # 로컬 개발용 (필요시 제거)
+        "172.18.0.0/16",  # Docker 네트워크
+        "192.168.0.0/16"  # 로컬 네트워크
     ],
     "totp_secret": "",  # 초기 실행 시 자동 생성됨
     "totp_window": 2,   # ±1분 허용

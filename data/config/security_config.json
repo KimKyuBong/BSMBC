@@ -2,9 +2,13 @@
     "allowed_ip_networks": [
         "10.129.55.253/32",
         "10.129.50.0/24",
-        "127.0.0.1/32"
+        "127.0.0.1/32",
+        "172.18.0.0/16",
+        "192.168.0.0/16"
     ],
     "totp_secret": "LGT6EZ5B3UAVO6NBJLNZRHKMUG6PY3GE",
     "totp_window": 2,
-    "api_key_header": "X-API-Key"
+    "api_key_header": "X-API-Key",
+    "totp_enabled": false,
+    "ip_check_enabled": true
 }
