@@ -121,21 +121,30 @@ def handle_group_command(args):
     state = 1 if args.on else 0
     action = "켜기" if args.on else "끄기"
     
-    # 그룹별 장치 매핑
-    group_devices = {
-        "grade1": ["1-1", "1-2", "1-3", "1-4"],
-        "grade2": ["2-1", "2-2", "2-3", "2-4"],
-        "grade3": ["3-1", "3-2", "3-3", "3-4"],
-        "special": ["선생영역", "시청각실", "체육관", "보건실부"],
-        "all": ["1-1", "1-2", "1-3", "1-4", "2-1", "2-2", "2-3", "2-4", "3-1", "3-2", "3-3", "3-4"]
+    # DeviceMapper에서 그룹 정보 가져오기
+    from ..core.device_mapping import device_mapper
+    
+    # CLI용 그룹 별칭 매핑
+    group_aliases = {
+        "grade1": "1학년전체",
+        "grade2": "2학년전체",
+        "grade3": "3학년전체",
+        "all": "전체교실"
     }
     
-    if args.group not in group_devices:
+    # 그룹 이름 변환 (별칭 → 실제 그룹명)
+    actual_group_name = group_aliases.get(args.group, args.group)
+    
+    # DeviceMapper에서 그룹 장치 가져오기
+    available_groups = device_mapper.device_groups
+    
+    if actual_group_name not in available_groups:
         print(f"[!] 에러: 알 수 없는 그룹 '{args.group}'")
-        print("[*] 사용 가능한 그룹: grade1, grade2, grade3, special, all")
+        print(f"[*] 사용 가능한 그룹: {', '.join(group_aliases.keys())}")
+        print(f"[*] 또는 실제 그룹: {', '.join(available_groups.keys())}")
         return False
     
-    devices = group_devices[args.group]
+    devices = available_groups[actual_group_name]
     print(f"[*] 그룹 '{args.group}' ({', '.join(devices)}) {action} 명령 실행...")
     
     success = broadcast_controller.control_multiple_devices(devices, state)

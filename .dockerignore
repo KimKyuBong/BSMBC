@@ -1,0 +1,49 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# 로그 및 임시 파일
+*.log
+logs/
+data/temp/*
+data/previews/*
+*.tmp
+*.temp
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# 환경 설정
+.env
+.env.local
+
+# 테스트 파일
+test_*.py
+*_test.py
+
+# 문서 (이미지에 불필요)
+RASPBERRY_PI_SETUP.md
+INSTALLATION_COMPLETE.md
+
+# 임시 파일들
+nohup.out
+*.pid
+

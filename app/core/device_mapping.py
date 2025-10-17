@@ -18,41 +18,29 @@ class DeviceMapper:
     장치 좌표, 이름, 비트 위치 간의 매핑을 처리합니다.
     """
     def __init__(self):
-        # 장치 매핑 테이블 초기화 (좌표 -> 장치명)
-        # 이미지에 기반하여 정확한 위치로 업데이트
-        self.device_map = {
-            # 1학년 (1행 1-4열)
-            (0, 0): "1-1", (0, 1): "1-2", (0, 2): "1-3", (0, 3): "1-4",
-            # 2학년 (1행 8-11열)
-            (0, 8): "2-1", (0, 9): "2-2", (0, 10): "2-3", (0, 11): "2-4",
-            # 3학년 (2행 1-4열)
-            (1, 0): "3-1", (1, 1): "3-2", (1, 2): "3-3", (1, 3): "3-4",
-            # 특수실 (3행) - 이미지에 표시된 명칭으로 수정
-            (2, 0): "교무열", (2, 1): "교사연2", (2, 2): "맵실", (2, 3): "보건실부",
-            (2, 4): "과무E-12", (2, 5): "과학준비", (2, 6): "정의루비", (2, 7): "남여휴게",
-            # 특수실 (4행) - 이미지에 표시된 명칭으로 수정
-            (3, 0): "교무실", (3, 1): "방사성작", (3, 2): "위클루의", (3, 3): "표1-12",
-            (3, 4): "교무지", (3, 5): "진로연구", (3, 6): "모듈2", (3, 7): "정의교자",
-            # 특수실 (5행) - 이미지에 표시된 명칭으로 수정
-            (4, 0): "B1공통훈", (4, 1): "A1공통훈", (4, 2): "B2공통훈", (4, 3): "A2공통훈",
-            (4, 4): "A3공통훈", (4, 5): "강당", (4, 6): "방송실", (4, 7): "별박1-1",
-            (4, 8): "별박1-2", (4, 9): "별박1-3", (4, 10): "별박2-1", (4, 11): "별박2-2",
-            (4, 12): "운동장", (4, 13): "옥외"
-        }
+        # 매트릭스 설정 파일 경로
+        self.matrix_config_path = Path("config/device_matrix.json")
         
-        # 4행 16열 장치 매트릭스 초기화
+        # Fallback 경로 (Docker 환경 등)
+        if not self.matrix_config_path.exists():
+            self.matrix_config_path = Path("data/config/device_matrix.json")
+            self.matrix_config_path.parent.mkdir(parents=True, exist_ok=True)
+        
+        # 4행 16열 장치 매트릭스 초기화 (기본값)
         self.device_matrix = self._initialize_device_matrix()
         
-        # 매트릭스 설정 파일 경로
-        self.matrix_config_path = Path("data/config/device_matrix.json")
-        self.matrix_config_path.parent.mkdir(parents=True, exist_ok=True)
-        
-        # 저장된 매트릭스 설정 로드
+        # 저장된 매트릭스 설정 로드 (JSON 우선)
         self._load_matrix_config()
+        
+        # 매트릭스에서 device_map 자동 생성 (좌표 -> 장치명)
+        self.device_map = self._build_device_map_from_matrix()
         
         # 로드된 매트릭스 정보 출력
         print(f"[*] 장치 매트릭스 로드 완료: {len(self.device_matrix)}행 x {len(self.device_matrix[0]) if self.device_matrix else 0}열")
         print(f"[*] 실제 장치 수: {self._count_actual_devices()}개")
+        
+        # 장치 그룹 로드 (JSON에서 자동 생성 또는 설정 파일에서)
+        self.device_groups = self._build_device_groups()
         
         # 역방향 매핑 생성 (장치명 -> 좌표)
         self.device_to_coord = {v: k for k, v in self.device_map.items()}
@@ -79,55 +67,54 @@ class DeviceMapper:
             0x01: frozenset([301, 302]),        # 3학년 1,2반 모두 켜짐
             # 추가 상태 코드는 더 많은 테스트를 통해 확장 가능
         }
-        
-        # 그룹 장치 정의
-        self.device_groups = {
-            # 학년별 그룹
-            "1학년전체": ["1-1", "1-2", "1-3", "1-4"],
-            "2학년전체": ["2-1", "2-2", "2-3", "2-4"],
-            "3학년전체": ["3-1", "3-2", "3-3", "3-4"],
-            # 전체 학년
-            "전체교실": ["1-1", "1-2", "1-3", "1-4", "2-1", "2-2", "2-3", "2-4", "3-1", "3-2", "3-3", "3-4"],
-            # 교무 관련
-            "교무군": ["교행연회", "교사연구", "일반교무", "전문교무"],
-            # 특별실
-            "특별실": ["협동조합", "보건학부", "컴터12", "과학준비", "창의준비", "창의공작", "진로연구", "모둠12"],
-            # 공용 공간
-            "공용공간": ["남여휴게", "급식실", "위클회의", "플그12"],
-            # 건물별
-            "본관": ["본관1층층", "본관2층"],
-            "융합관": ["융합1층", "융합2층", "융합3층"],
-            "별관": ["별관11", "별관12", "별관13", "별관21", "별관22"],
-            # 주요 시설
-            "주요시설": ["강당", "방송실", "운동장", "옥외"],
-            # 모든 실제 장치 (일반 장치 제외)
-            "실제장치": [
-                "1-1", "1-2", "1-3", "1-4", "2-1", "2-2", "2-3", "2-4", "3-1", "3-2", "3-3", "3-4",
-                "교행연회", "교사연구", "협동조합", "보건학부", "컴터12", "과학준비", "창의준비", "남여휴게",
-                "일반교무", "급식실", "위클회의", "플그12", "전문교무", "진로연구", "모둠12", "창의공작",
-                "본관1층층", "융합1층", "본관2층", "융합2층", "융합3층", "강당", "방송실",
-                "별관11", "별관12", "별관13", "별관21", "별관22", "운동장", "옥외"
-            ]
-        }
     
     def _initialize_device_matrix(self):
         """
-        4행 16열 기본 장치 매트릭스 생성 (사용자 지정 기본값)
+        4행 16열 기본 장치 매트릭스 생성 (빈 기본값)
+        실제 데이터는 JSON 파일에서 로드됨
         """
         return [
-            [
-                "1-1", "1-2", "1-3", "1-4", "장치5", "장치6", "장치7", "장치8", "2-1", "2-2", "2-3", "2-4", "장치13", "장치14", "장치15", "장치16"
-            ],
-            [
-                "3-1", "3-2", "3-3", "3-4", "장치21", "장치22", "장치23", "장치24", "장치25", "장치26", "장치27", "장치28", "장치29", "장치30", "장치31", "장치32"
-            ],
-            [
-                "교행연회", "교사연구", "협동조합", "보건학부", "컴터12", "과학준비", "창의준비", "남여휴게", "일반교무", "급식실", "위클회의", "플그12", "전문교무", "진로연구", "모둠12", "창의공작"
-            ],
-            [
-                "본관1층", "융합1층", "본관2층", "융합2층", "융합3층", "강당", "방송실", "SRC1-1", "SRC1-2", "SRC1-3", "SRC2-1", "창의관", "장치61", "장치62", "운동장", "옥외"
-            ]
+            [f"장치{i+1}" for i in range(16)],
+            [f"장치{i+17}" for i in range(16)],
+            [f"장치{i+33}" for i in range(16)],
+            [f"장치{i+49}" for i in range(16)]
         ]
+    
+    def _build_device_map_from_matrix(self):
+        """매트릭스에서 device_map 자동 생성 (좌표 -> 장치명)"""
+        device_map = {}
+        for row_idx, row in enumerate(self.device_matrix):
+            for col_idx, device_name in enumerate(row):
+                if device_name and not device_name.startswith("장치"):
+                    device_map[(row_idx, col_idx)] = device_name
+        return device_map
+    
+    def _build_device_groups(self):
+        """매트릭스에서 device_groups 자동 생성"""
+        groups = {}
+        
+        # 매트릭스에서 모든 실제 장치 수집
+        all_devices = []
+        for row in self.device_matrix:
+            for device in row:
+                if device and not device.startswith("장치"):
+                    all_devices.append(device)
+        
+        # 학년별 그룹 자동 생성
+        for grade in [1, 2, 3]:
+            grade_devices = [d for d in all_devices if d.startswith(f"{grade}-")]
+            if grade_devices:
+                groups[f"{grade}학년전체"] = grade_devices
+        
+        # 전체 교실 (학년-반 형식)
+        classroom_devices = [d for d in all_devices if '-' in d and d[0].isdigit()]
+        if classroom_devices:
+            groups["전체교실"] = classroom_devices
+        
+        # 모든 실제 장치
+        groups["실제장치"] = all_devices
+        
+        return groups
     
     def _load_matrix_config(self):
         """저장된 매트릭스 설정 로드"""

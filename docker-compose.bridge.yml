@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  broadcast:
+    build: .
+    container_name: broadcast-system
+    image: broadcast-system:latest
+    
+    ports:
+      - "8000:8000"    # 웹 서버 포트
+    
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+      - ./config:/app/config
+    
+    environment:
+      - PYTHONUNBUFFERED=1
+      - TARGET_IP=192.168.0.200
+      - TARGET_PORT=22000
+    
+    devices:
+      - /dev/snd:/dev/snd
+    
+    # Bridge 네트워크 사용 (기본)
+    
+    restart: unless-stopped
+    
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
