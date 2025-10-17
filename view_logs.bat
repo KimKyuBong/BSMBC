@@ -15,3 +15,5 @@ powershell -Command "$latestLog = Get-ChildItem -Path .\logs -Filter *.log | Sor
 
 
 
+
+
