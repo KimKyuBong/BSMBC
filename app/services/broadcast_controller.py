@@ -21,26 +21,14 @@ import shutil
 import asyncio
 from concurrent.futures import ThreadPoolExecutor
 
-# 멜로 TTS 및 오디오 처리 라이브러리
-TTS_ENGINE = None
-
+# 오디오 재생 라이브러리 확인
 try:
-    import pyttsx3
-    TTS_ENGINE = "pyttsx3"
-    print("[*] pyttsx3 TTS 엔진이 로드되었습니다.")
+    import vlc
+    print("[*] VLC 모듈이 로드되었습니다. 오디오 재생이 가능합니다.")
 except ImportError:
-    try:
-        from gtts import gTTS
-        TTS_ENGINE = "gtts"
-        print("[*] gTTS 엔진이 로드되었습니다.")
-    except ImportError:
-        try:
-            import vlc
-            print("[*] VLC 모듈이 로드되었습니다. 오디오 재생이 가능합니다.")
-        except ImportError:
-            print("[!] 경고: VLC 모듈을 로드할 수 없습니다. 오디오 재생이 제한될 수 있습니다.")
-        
-        print("[!] 경고: TTS 엔진을 로드할 수 없습니다. 텍스트-음성 변환 기능이 비활성화됩니다.")
+    print("[!] 경고: VLC 모듈을 로드할 수 없습니다. 오디오 재생이 제한될 수 있습니다.")
+
+# TTS 엔진은 tts_service.py에서 관리 (MeloTTS > gTTS > pyttsx3 순서)
 
 from ..core.config import config, setup_logging
 from .broadcast_manager import broadcast_manager
@@ -151,7 +139,7 @@ class BroadcastController:
         self.end_signal_path = Path(config.data_dir) / "end.mp3"
         
         # 프리뷰 관리
-        self.preview_dir = Path("D:/previews")
+        self.preview_dir = Path(config.app_data_dir) / "previews"
         print(f"[*] 프리뷰 디렉토리 설정: {self.preview_dir}")
         print(f"[*] 프리뷰 디렉토리 절대 경로: {self.preview_dir.absolute()}")
         

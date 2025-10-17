@@ -298,6 +298,13 @@ class TTSService:
                 # 파일로 저장
                 self.tts_engine.save_to_file(text, str(output_path))
                 self.tts_engine.runAndWait()
+                
+                # 파일 쓰기 완료 대기 (최대 5초)
+                import time as time_module
+                for i in range(50):
+                    if output_path.exists() and os.path.getsize(output_path) > 0:
+                        break
+                    time_module.sleep(0.1)
             
             # 결과 정보 출력
             elapsed_time = time.time() - start_time

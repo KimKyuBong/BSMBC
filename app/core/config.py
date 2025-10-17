@@ -13,14 +13,13 @@ from datetime import datetime
 APP_VERSION = "1.0.0"
 
 # 네트워크 설정
-DEFAULT_INTERFACE = r"\Device\NPF_{A3EA7E25-E0C4-4F61-8FA9-69FA733D2708}"
+DEFAULT_INTERFACE = "eth0"  # 라즈베리파이 기본 이더넷 인터페이스
 DEFAULT_TARGET_IP = "192.168.0.200"
 DEFAULT_TARGET_PORT = 22000
 
-# FFmpeg 경로 설정 (중앙 관리)
-FFMPEG_DIR = Path(__file__).parent.parent.parent / "ffmpeg" / "bin"
-FFMPEG_PATH = FFMPEG_DIR / "ffmpeg.exe"
-FFPROBE_PATH = FFMPEG_DIR / "ffprobe.exe"
+# FFmpeg 경로 설정 (시스템 경로 사용 - 라즈베리파이)
+FFMPEG_PATH = Path("/usr/bin/ffmpeg")
+FFPROBE_PATH = Path("/usr/bin/ffprobe")
 
 # 오디오 정규화 기본 설정
 DEFAULT_TARGET_DBFS = -12.0
@@ -118,7 +117,6 @@ class Config:
         self.special_channels = SPECIAL_CHANNELS
         
         # FFmpeg 경로 설정
-        self.ffmpeg_dir = FFMPEG_DIR
         self.ffmpeg_path = FFMPEG_PATH
         self.ffprobe_path = FFPROBE_PATH
         
@@ -165,7 +163,6 @@ class Config:
             ffmpeg 관련 경로 정보
         """
         return {
-            "ffmpeg_dir": str(self.ffmpeg_dir),
             "ffmpeg_path": str(self.ffmpeg_path),
             "ffprobe_path": str(self.ffprobe_path),
             "ffmpeg_exists": self.ffmpeg_path.exists(),
