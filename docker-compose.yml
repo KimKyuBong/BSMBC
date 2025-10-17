@@ -1,4 +1,5 @@
-version: '3.8'
+# Docker Compose 설정 파일
+# version 속성은 더 이상 필요하지 않음 (Docker Compose v2)
 
 services:
   broadcast:
